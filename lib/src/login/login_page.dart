@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Column(
               children: [
-                _imageBanner(),
+                _imagenBanner(),
                 _email(),
                 _contra(),
                 _ingresar(),
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _imageBanner() {
+  Widget _imagenBanner() {
     return Container(
       margin: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.1,
