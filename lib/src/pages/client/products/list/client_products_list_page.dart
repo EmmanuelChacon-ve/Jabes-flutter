@@ -26,8 +26,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-            onPressed: _con.logout, child: const Text('Cerrar Seccion')),
+        child:
+            ElevatedButton(onPressed: _con.logout, child: const Text('Cerrar')),
       ),
     );
   }
