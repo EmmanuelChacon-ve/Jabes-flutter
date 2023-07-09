@@ -27,7 +27,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-            onPressed: _con.logout, child: const Text('Cerrar Seccion')),
+            onPressed: _con.logout, child: const Text('Cerrar session')),
       ),
     );
   }
