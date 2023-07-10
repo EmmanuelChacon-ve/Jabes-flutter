@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../../../utils/shared_pref.dart';
 
 class ClientProductsListController {
   late BuildContext context;
-  final SharedPref _sharedPref = SharedPref();
+  SharedPref _sharedPref = SharedPref();
   void init(BuildContext context) {
     this.context = context;
   }
