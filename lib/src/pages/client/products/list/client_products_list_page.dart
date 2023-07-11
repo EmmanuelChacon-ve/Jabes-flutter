@@ -25,9 +25,38 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
       body: Center(
-        child:
-            ElevatedButton(onPressed: _con.logout, child: const Text('Cerrar')),
+        child: ElevatedButton(
+            onPressed: _con.logout, child: const Text('Cerrar Sesión')),
+      ),
+    );
+  }
+
+  Widget _menuDrawer() {
+    return GestureDetector(
+      onTap: () {}, //QUEDE AQUI... NO TOCAR   BY: YURI
+    );
+  }
+
+  Widget _drawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+              child: Column(
+            children: [
+              Text(
+                'Nombre de usuario',
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                maxLines: 1,
+              )
+            ],
+          ))
+        ],
       ),
     );
   }
