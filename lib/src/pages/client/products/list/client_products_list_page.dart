@@ -11,15 +11,16 @@ class ClientProductsListPage extends StatefulWidget {
 }
 
 class _ClientProductsListPageState extends State<ClientProductsListPage> {
-  ClientProductsListController _con = ClientProductsListController();
-
+  final ClientProductsListController _con = ClientProductsListController();
+  String? userImage;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context, refresh);
+      userImage = _con.user?.image?.toString();
     });
   }
 
@@ -59,16 +60,16 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Nombre de usuario',
-                    style: TextStyle(
+                  Text(
+                    '${_con.user?.name ?? ''} ${_con.user?.lastname ?? ''}',
+                    style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                     maxLines: 1,
                   ),
                   Text(
-                    'Correo Eléctronico',
+                    _con.user?.email ?? '',
                     style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[200],
@@ -77,7 +78,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     maxLines: 1,
                   ),
                   Text(
-                    'Teléfono',
+                    _con.user?.phone ?? '',
                     style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[200],
@@ -88,33 +89,46 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   Container(
                     height: 60,
                     margin: const EdgeInsets.only(top: 10),
-                    child: const FadeInImage(
-                      image: AssetImage('asset/img/no-image.png'),
+                    child: FadeInImage(
+                      image: _con.user?.image != null
+                          ? NetworkImage(_con.user?.image as String)
+                          : const AssetImage('asset/img/no-image.png')
+                              as ImageProvider<Object>,
                       fit: BoxFit.contain,
-                      fadeInDuration: Duration(milliseconds: 50),
-                      placeholder: AssetImage('asset/img/no-image.png'),
+                      fadeInDuration: const Duration(milliseconds: 50),
+                      placeholder: const AssetImage('asset/img/no-image.png'),
                     ),
                   )
                 ],
               )),
-          ListTile(
+          const ListTile(
             title: Text('Editar Perfil'),
             trailing: Icon(Icons.edit_outlined),
           ),
-          ListTile(
-            title: Text('Donar'),
-            trailing: Icon(Icons.money),
+          const ListTile(
+            title: Text('Donar/Voluntariado'),
+            trailing: Icon(Icons.volunteer_activism),
+          ),
+          const ListTile(
+            title: Text('Registro de donaciones'),
+            trailing: Icon(Icons.picture_as_pdf),
+          ),
+          const ListTile(
+            title: Text('Seleccionar rol'),
+            trailing: Icon(Icons.person_outlined),
           ),
           ListTile(
-            title: Text('Cerrar sesión'),
-            trailing: Icon(Icons.power_settings_new),
-          ),
-          ListTile(
-            title: Text('Cerrar sesión'),
-            trailing: Icon(Icons.power_settings_new),
+            onTap: _con.logout,
+            title: const Text('Cerrar sesión'),
+            trailing: const Icon(Icons.power_settings_new),
           ),
         ],
       ),
     );
+  }
+
+  void refresh() {
+    setState(
+        () {}); //CTRL + S = REDIBUJAR TODO CUANDO EL USER YA ESTE CARGADO( )
   }
 }
