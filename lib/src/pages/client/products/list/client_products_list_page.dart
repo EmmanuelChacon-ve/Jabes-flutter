@@ -15,7 +15,6 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   String? userImage;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
