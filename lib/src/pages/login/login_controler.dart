@@ -39,12 +39,22 @@ class LoginController {
     if (responseApi!.success!) {
       User user = User.fromJson(responseApi.data);
       _sharedPref.save('user', user.toJson());
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-          // este pushNamedAndRemoveUntil nos permite que si le damos para atras al telefono no haya mas paginas guardadas  y se sale de la aplicacion , es decir para que el usuario quiera ir otra vez a iniciar seccion tiene que  hacer el logout
+      print('Usuario logeado:  ${user.toJson()}');
+      if (user.roles!.length > 1) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
+            // este pushNamedAndRemoveUntil nos permite que si le damos para atras al telefono no haya mas paginas guardadas  y se sale de la aplicacion , es decir para que el usuario quiera ir otra vez a iniciar seccion tiene que  hacer el logout
+            context,
+            'roles',
+            (route) => false);
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
           context,
-          'client/products/list',
-          (route) => false);
+          user.roles?[0].route ?? '',
+          (route) => false,
+        );
+      }
     } else {
       // ignore: use_build_context_synchronously
       MySnackbar.show(context, responseApi.message ?? 'Error al Ingresar');
