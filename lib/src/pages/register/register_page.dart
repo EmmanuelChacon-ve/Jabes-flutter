@@ -17,8 +17,9 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context, refresh);
     });
   }
 
@@ -66,10 +67,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _imageUser() {
-    return CircleAvatar(
-      backgroundImage: const AssetImage('asset/img/user_profile_2.png'),
-      radius: 60,
-      backgroundColor: Colors.grey[200],
+    return GestureDetector(
+      onTap: _con.showAlertDialog,
+      child: CircleAvatar(
+        // ignore: unnecessary_null_comparison
+        backgroundImage: _con.imageFile != null
+            ? FileImage(_con.imageFile!)
+            : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
+        radius: 60,
+        backgroundColor: Colors.grey[200],
+      ),
     );
   }
 
@@ -249,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: _con.register,
+        onPressed: _con.isEnable ? _con.register : null,
         style: ElevatedButton.styleFrom(
             backgroundColor: MyColors
                 .primaryColor, // Utiliza el color MyColors.primaryColor como fondo del botón
@@ -262,5 +269,9 @@ class _RegisterPageState extends State<RegisterPage> {
         child: const Text('Registrarse'),
       ),
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }
