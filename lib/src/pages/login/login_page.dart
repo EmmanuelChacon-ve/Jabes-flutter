@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         Text(
           'No tienes cuenta',
-          style: TextStyle(color: MyColors.primaryColor),
+          style: TextStyle(color: MyColors.primaryColor, fontSize: 17),
         ),
         const SizedBox(width: 7),
         GestureDetector(
@@ -154,7 +154,9 @@ class _LoginPageState extends State<LoginPage> {
           }, ESTO TAMBIEN SE UTILIZA PARA REDIRIGIR A LA PAGINA*/
           child: Text('Registrate',
               style: TextStyle(
-                  fontWeight: FontWeight.bold, color: MyColors.primaryColor)),
+                  fontWeight: FontWeight.bold,
+                  color: MyColors.primaryColor,
+                  fontSize: 17)),
         ),
       ],
     );
