@@ -29,29 +29,38 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:const Text('Editar perfil'),
-        backgroundColor: MyColors.primaryColor,
-  
-      ),
-        body: SizedBox(
+      body: SizedBox(
         width: double.infinity,
-        child: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Positioned(top: -90, left: -90, child: _circuloregis()),
+            Positioned(
+              top: 52,
+              left: -5,
+              child: _iconback(),
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 130),
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height:50),
                     _imageUser(),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30),
                     _nombre(),
                     _apellido(),
                     _telefono(),
+                    _registrar()
                   ],
                 ),
               ),
+            )
+          ],
+        ),
       ),
-      bottomNavigationBar:_registrar() ,
     );
   }
+
 
    Widget _imageUser() {
     return GestureDetector(
@@ -60,6 +69,8 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
         // ignore: unnecessary_null_comparison
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
+            :_con.user.image!= null 
+            ? NetworkImage( _con.user.image!)
             : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
@@ -78,17 +89,6 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
     );
   }
 
-  Widget _textregis() {
-    return GestureDetector(
-      onTap: _con.goTologinPage,
-      child: const Text('REGISTRO',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          )),
-    );
-  }
 
   Widget _iconback() {
     return IconButton(
