@@ -21,9 +21,17 @@ class LoginController {
     User user = User.fromJson(await _sharedPref.read('user') ?? {});
     print('Usuario: ${user.toJson()}');
     if (user.sessionToken != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-          context, 'client/products/list', (route) => false);
+      if (user.roles!.length > 1) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
+            context, user.roles![0].route!, (route) => false);
+      }
+    } else {
+      MySnackbar.show(context, 'El usuario ya esta logeado');
+      return;
     }
   }
 

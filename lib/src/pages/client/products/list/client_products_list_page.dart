@@ -113,10 +113,6 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
             title: Text('Registro de donaciones'),
             trailing: Icon(Icons.picture_as_pdf),
           ),
-          const ListTile(
-            title: Text('Seleccionar rol'),
-            trailing: Icon(Icons.person_outlined),
-          ),
           ListTile(
             onTap: _con.logout,
             title: const Text('Cerrar sesión'),

@@ -16,11 +16,13 @@ class ClientUpdatePage extends StatefulWidget {
 class _ClientUpdatePageState extends State<ClientUpdatePage> {
   final ClientUpdateController _con = ClientUpdateController();
   @override
+
   void initState() {
     // TODO: implement initState
     super.initState();
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context,refresh);
     });
   }
 
@@ -51,11 +53,17 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
     );
   }
 
-  Widget _imageUser() {
-    return CircleAvatar(
-      backgroundImage: const AssetImage('asset/img/user_profile_2.png'),
-      radius: 60,
-      backgroundColor: Colors.grey[200],
+   Widget _imageUser() {
+    return GestureDetector(
+      onTap: _con.showAlertDialog,
+      child: CircleAvatar(
+        // ignore: unnecessary_null_comparison
+        backgroundImage: _con.imageFile != null
+            ? FileImage(_con.imageFile!)
+            : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
+        radius: 60,
+        backgroundColor: Colors.grey[200],
+      ),
     );
   }
 
@@ -91,28 +99,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
         ));
   }
 
-  Widget _email() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryColor2,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _con.emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: 'Correo Electronico',
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColor),
-            prefixIcon: Icon(
-              Icons.email,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
+  
 
   Widget _nombre() {
     return Container(
@@ -184,52 +171,6 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
     );
   }
 
-  Widget _contra() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryColor2,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Contraseña',
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColor),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
-  Widget _confirmContra() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryColor2,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _con.confirmPasswordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Confirmar Contraseña',
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColor),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
   Widget _registrar() {
     return Container(
       width: double.infinity,
@@ -248,5 +189,9 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
         child: const Text('ACTUALIZAR PERFIL'),
       ),
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }
