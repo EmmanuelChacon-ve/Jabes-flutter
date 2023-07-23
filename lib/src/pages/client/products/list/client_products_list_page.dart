@@ -100,9 +100,10 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   )
                 ],
               )),
-          const ListTile(
-            title: Text('Editar Perfil'),
-            trailing: Icon(Icons.edit_outlined),
+           ListTile(
+            onTap:_con.gotoUpdatePage,
+            title: const Text('Editar Perfil'),
+            trailing: const Icon(Icons.edit_outlined),
           ),
           const ListTile(
             title: Text('Donar/Voluntariado'),

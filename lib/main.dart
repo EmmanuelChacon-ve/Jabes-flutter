@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jabes/src/pages/admin/orders/list/admin_orders_list_page.dart';
 import 'package:jabes/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:jabes/src/pages/client/products/list/update/client_update_page.dart';
 import 'package:jabes/src/pages/login/login_page.dart';
 import 'package:jabes/src/pages/org/orders/list/org_orders_list_page.dart';
 import 'package:jabes/src/pages/register/register_page.dart';
@@ -29,8 +30,8 @@ class _MyWidgetState extends State<MyApp> {
         'login': (BuildContext context) => const LoginPage(),
         'register': (BuildContext context) => const RegisterPage(),
         'roles': (BuildContext context) => const RolesPage(),
-        'client/products/list': (BuildContext context) =>
-            const ClientProductsListPage(),
+        'client/products/list': (BuildContext context) => const ClientProductsListPage(),
+        'client/update': (BuildContext context) => const ClientUpdatePage(),
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),

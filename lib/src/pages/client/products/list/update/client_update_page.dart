@@ -27,43 +27,27 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
+      appBar: AppBar(
+        title:const Text('Editar perfil'),
+        backgroundColor: MyColors.primaryColor,
+  
+      ),
+        body: SizedBox(
         width: double.infinity,
-        child: Stack(
-          children: [
-            Positioned(top: -90, left: -90, child: _circuloregis()),
-            Positioned(
-              top: 65,
-              left: 27,
-              child: _textregis(),
-            ),
-            Positioned(
-              top: 52,
-              left: -5,
-              child: _iconback(),
-            ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 130),
-              child: SingleChildScrollView(
+        child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    const SizedBox(height:50),
                     _imageUser(),
-                    SizedBox(height: 30),
-                    _email(),
+                    const SizedBox(height: 30),
                     _nombre(),
                     _apellido(),
                     _telefono(),
-                    _contra(),
-                    _confirmContra(),
-                    _registrar()
                   ],
                 ),
               ),
-            )
-          ],
-        ),
       ),
+      bottomNavigationBar:_registrar() ,
     );
   }
 
@@ -261,7 +245,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
             padding: const EdgeInsets.symmetric(
                 vertical: 15) // Color del texto del botón
             ),
-        child: const Text('Registrarse'),
+        child: const Text('ACTUALIZAR PERFIL'),
       ),
     );
   }
