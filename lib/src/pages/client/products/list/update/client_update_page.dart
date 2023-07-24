@@ -69,8 +69,8 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
         // ignore: unnecessary_null_comparison
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
-            :_con.user.image!= null 
-            ? NetworkImage( _con.user.image!)
+            :_con.user!.image!= null 
+            ? NetworkImage( _con.user!.image!)
             : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
@@ -176,7 +176,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: _con.register,
+        onPressed: () { _con.update();},
         style: ElevatedButton.styleFrom(
             backgroundColor: MyColors
                 .primaryColor, // Utiliza el color MyColors.primaryColor como fondo del botón

@@ -29,6 +29,7 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
       key: _con.key,
       appBar: AppBar(
         leading: _menuDrawer(),
+        backgroundColor: MyColors.primaryColor,
       ),
       drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
       body: const Center(

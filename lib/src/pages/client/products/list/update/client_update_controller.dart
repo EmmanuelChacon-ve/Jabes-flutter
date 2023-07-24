@@ -7,6 +7,7 @@ import 'package:jabes/src/models/user.dart';
 import 'package:jabes/src/provider/users_provider.dart';
 import 'package:jabes/src/utils/my_snackbar.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
@@ -16,10 +17,11 @@ bool isNumeric(String value) {
 
 class ClientUpdateController {
   late BuildContext context;
-
   TextEditingController nameController = TextEditingController();
   TextEditingController apellidoController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+
+
   UsersProvider usersProvider = UsersProvider();
 
   PickedFile? pickedFile;
@@ -28,9 +30,8 @@ class ClientUpdateController {
   ProgressDialog? _progressDialog;
 
   bool isEnable = true;
-  late User user;
+  User? user;
   SharedPref _sharedPref=new SharedPref();
-
 
 
 
@@ -40,10 +41,10 @@ class ClientUpdateController {
     this.refresh = refresh;
     _progressDialog = ProgressDialog(context: context);
     user=User.fromJson(await _sharedPref.read('user'));
-    nameController.text=user.name!;
-    apellidoController.text=user.lastname!;
-    phoneController.text=user.phone!;
-    
+    nameController.text=user!.name!;
+    apellidoController.text=user!.lastname!;
+    phoneController.text=user!.phone!;
+
     refresh();
   }
 
@@ -51,7 +52,7 @@ class ClientUpdateController {
     Navigator.pushNamed(context, 'login');
   }
 
-  void register() async {
+  void update() async {
     String name = nameController.text;
     String apellido = apellidoController.text;
     String phone = phoneController.text.trim();
@@ -74,27 +75,29 @@ class ClientUpdateController {
 
     _progressDialog?.show(max: 100, msg: 'Espere un momento...');
     isEnable = false;
-    User user = User(
-     //   email: email,
+
+    User myuser =User(
+        id: user!.id,
+       // email: user!.email,
         name: name,
         lastname: apellido,
-        phone: phone);
+        phone: phone,
+        image:user!.image);
+        
        // password: password);
 
-    Stream? stream = await usersProvider.createWithImage(user, imageFile);
+
+    Stream? stream = await usersProvider.update(myuser, imageFile);
     stream?.listen((res) {
       _progressDialog?.close();
       /* ResponseApi? responseApi = await UsersProvider().create(user); */
-      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-      // ignore: use_build_context_synchronously
-      MySnackbar.show(context, responseApi.message ?? 'Error al crear usuario');
+    ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+     Fluttertoast.showToast(msg:responseApi.message!);
 
       if (responseApi.success!) {
-        Future.delayed(const Duration(seconds: 1), () {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, 'login');
-          });
-        });
+    
+      Navigator.restorablePushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
+
       } else {
         isEnable = true;
       }

@@ -28,7 +28,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     return Scaffold(
       key: _con.key,
       appBar: AppBar(
-        leading: _menuDrawer(),
+        leading: _menuDrawer(), 
+        backgroundColor: MyColors.primaryColor,
       ),
       drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
       body: Center(

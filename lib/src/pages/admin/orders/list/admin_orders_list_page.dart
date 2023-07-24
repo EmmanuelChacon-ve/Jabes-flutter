@@ -29,6 +29,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
       key: _con.key,
       appBar: AppBar(
         leading: _menuDrawer(),
+        backgroundColor: MyColors.primaryColor,
       ),
       drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
       body: const Center(
