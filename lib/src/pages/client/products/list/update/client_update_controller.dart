@@ -14,7 +14,7 @@ import 'package:sn_progress_dialog/progress_dialog.dart';
 bool isNumeric(String value) {
   return double.tryParse(value) != null;
 }
-
+//Controlador de editar perfil
 class ClientUpdateController {
   late BuildContext context;
   TextEditingController nameController = TextEditingController();
