@@ -65,4 +65,20 @@ class UsersProvider {
       return null;
     }
   }
+
+  Future<List<User>> getAllUsers() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAll');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<User> userList = [];
+      for (var item in data) {
+        userList.add(User.fromJson(item));
+      }
+      return userList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
 }
