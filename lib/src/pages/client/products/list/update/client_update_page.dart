@@ -20,47 +20,50 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context,refresh);
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Positioned(top: -90, left: -90, child: _circuloregis()),
-            Positioned(
-              top: 52,
-              left: -5,
-              child: _iconback(),
-            ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 130),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _imageUser(),
-                    SizedBox(height: 30),
-                    _nombre(),
-                    _apellido(),
-                    _telefono(),
-                    _registrar()
-                  ],
-                ),
+   // _textVolverEditar();
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SizedBox(
+      width: double.infinity,
+      child: Stack(
+        children: [
+          Positioned(top: -90, left: -90, child: _circuloregis()),
+          Positioned(
+            top: 52,
+            left: -5,
+            child: _iconback(),
+          ),
+          Positioned(
+            top: 65,
+            left: 27,
+            child: _textVolverEditar(), //Texto para volver al menu
+          ),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(top: 130),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _imageUser(),
+                  SizedBox(height: 30),
+                  _nombre(),
+                  _apellido(),
+                  _telefono(),
+                  _registrar()
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
-    );
-  }
-
+    ),
+  );
+}
 
    Widget _imageUser() {
     return GestureDetector(
@@ -69,8 +72,8 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
         // ignore: unnecessary_null_comparison
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
-            :_con.user.image!= null 
-            ? NetworkImage( _con.user.image!)
+            :_con.user!.image!= null 
+            ? NetworkImage( _con.user!.image!)
             : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
@@ -170,13 +173,21 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       ),
     );
   }
+  Widget _textVolverEditar() {
+   return const Text('Volver',
+       style: TextStyle(
+         color: Colors.white,
+         fontWeight: FontWeight.bold,
+         fontSize: 22,
+       ));
+ }
 
   Widget _registrar() {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: _con.register,
+        onPressed: () { _con.update();},
         style: ElevatedButton.styleFrom(
             backgroundColor: MyColors
                 .primaryColor, // Utiliza el color MyColors.primaryColor como fondo del botón
