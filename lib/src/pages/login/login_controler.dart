@@ -29,10 +29,10 @@ class LoginController {
         Navigator.pushNamedAndRemoveUntil(
             context, user.roles![0].route!, (route) => false);
       }
-    } else {
+    } /* else {
       MySnackbar.show(context, 'El usuario ya esta logeado');
       return;
-    }
+    } */
   }
 
   void goToRegisterPage() {

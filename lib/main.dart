@@ -30,7 +30,8 @@ class _MyWidgetState extends State<MyApp> {
         'login': (BuildContext context) => const LoginPage(),
         'register': (BuildContext context) => const RegisterPage(),
         'roles': (BuildContext context) => const RolesPage(),
-        'client/products/list': (BuildContext context) => const ClientProductsListPage(),
+        'client/products/list': (BuildContext context) =>
+            const ClientProductsListPage(),
         'client/update': (BuildContext context) => const ClientUpdatePage(),
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
         'admin/orders/list': (BuildContext context) =>
