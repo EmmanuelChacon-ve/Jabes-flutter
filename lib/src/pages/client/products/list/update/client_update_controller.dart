@@ -35,10 +35,11 @@ class ClientUpdateController {
 
   Future<void> init(BuildContext context, Function refresh) async {
     this.context = context;
-    usersProvider.init(context);
     this.refresh = refresh;
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
+    // ignore: use_build_context_synchronously
+    usersProvider.init(context, token: user?.sessionToken ?? '');
     nameController.text = user!.name!;
     apellidoController.text = user!.lastname!;
     phoneController.text = user!.phone!;
@@ -80,25 +81,23 @@ class ClientUpdateController {
     // password: password);
 
     Stream? stream = await usersProvider.update(myuser, imageFile);
-    stream?.listen((res) async {
-      _progressDialog?.close();
-      /* ResponseApi? responseApi = await UsersProvider().create(user); */
+    stream!.listen((res) async {
+      _progressDialog!.close();
+
+      // ResponseApi responseApi = await usersProvider.create(user);
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       Fluttertoast.showToast(msg: responseApi.message!);
 
       if (responseApi.success!) {
         user = await usersProvider
-            .getById(myuser.id!); //obteniendo el usuario en la base de datos
-        print(
-            'Usuario obtenido: ${myuser?.toJson()}'); //MOSTRANDO EN LA CONSOLA LOS DATOS DEL USER
-        _sharedPref.save('user', myuser.toJson());
-        Navigator.restorablePushNamedAndRemoveUntil(
+            .getById(myuser.id!); // OBTENIENDO EL USUARIO DE LA DB
+        print('Usuario obtenido: ${user!.toJson()}');
+        _sharedPref.save('user', user!.toJson());
+        Navigator.pushNamedAndRemoveUntil(
             context, 'client/products/list', (route) => false);
       } else {
         isEnable = true;
       }
-
-      print('Respuesta: ${responseApi?.toJson()}');
     });
   }
 

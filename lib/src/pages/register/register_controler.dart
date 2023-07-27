@@ -107,7 +107,7 @@ class RegisterController {
     });
   }
 
- Future<void> selectImage(ImageSource imageSource) async {
+  Future<void> selectImage(ImageSource imageSource) async {
     XFile? pickedFile = await ImagePicker().pickImage(source: imageSource);
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
@@ -115,6 +115,7 @@ class RegisterController {
     Navigator.pop(context);
     refresh();
   }
+
   void showAlertDialog() {
     Widget galleryButton = ElevatedButton(
         onPressed: () {
