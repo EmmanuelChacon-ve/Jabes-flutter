@@ -65,4 +65,18 @@ class UsersProvider {
       return null;
     }
   }
+
+  dynamic metodosDePago() async {
+    Uri url = Uri.http(_url, '$_api/payment');
+    Map<String, String> headers = {'Content-type': 'application/json'};
+    //agregar mas validaciones
+    try {
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+      return data;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
 }
