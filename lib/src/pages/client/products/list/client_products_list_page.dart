@@ -104,9 +104,11 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
             title: Text('Editar Perfil'),
             trailing: Icon(Icons.edit_outlined),
           ),
-          const ListTile(
-            title: Text('Donar/Voluntariado'),
-            trailing: Icon(Icons.volunteer_activism),
+          ListTile(
+            onTap: () =>
+                Navigator.pushNamed(context, 'client/payment/paymentMethods'),
+            title: const Text('Donar/Voluntariado'),
+            trailing: const Icon(Icons.volunteer_activism),
           ),
           const ListTile(
             title: Text('Registro de donaciones'),

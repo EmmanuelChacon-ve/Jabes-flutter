@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jabes/src/pages/admin/orders/list/admin_orders_list_page.dart';
+import 'package:jabes/src/pages/client/payment/payment_methods.dart';
 import 'package:jabes/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:jabes/src/pages/login/login_page.dart';
 import 'package:jabes/src/pages/org/orders/list/org_orders_list_page.dart';
@@ -34,6 +35,8 @@ class _MyWidgetState extends State<MyApp> {
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),
+        'client/payment/paymentMethods': (BuildContext context) =>
+            const MetodosPago(),
       },
       theme: ThemeData(
         fontFamily: 'Nimbusans',
