@@ -110,6 +110,11 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
             title: Text('Donar/Voluntariado'),
             trailing: Icon(Icons.volunteer_activism),
           ),
+           ListTile(
+            title:const Text('Permisos del Administrador'),
+            onTap: () => Navigator.pushNamed(context,'admin/orders/privileges'),
+            trailing: Icon(Icons.accessibility_new_rounded),
+          ),
           const ListTile(
             title: Text('Registro de donaciones'),
             trailing: Icon(Icons.picture_as_pdf),

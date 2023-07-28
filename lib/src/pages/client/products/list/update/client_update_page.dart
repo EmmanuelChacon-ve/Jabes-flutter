@@ -14,7 +14,8 @@ class ClientUpdatePage extends StatefulWidget {
 }
 
 class _ClientUpdatePageState extends State<ClientUpdatePage> {
-  final ClientUpdateController _con = ClientUpdateController();
+ final ClientUpdateController _con = ClientUpdateController();
+
   @override
 
   void initState() {
@@ -92,7 +93,6 @@ Widget build(BuildContext context) {
     );
   }
 
-
   Widget _iconback() {
     return IconButton(
         onPressed: _con.goTologinPage,
@@ -102,7 +102,6 @@ Widget build(BuildContext context) {
         ));
   }
 
-  
 
   Widget _nombre() {
     return Container(
