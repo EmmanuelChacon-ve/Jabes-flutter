@@ -14,13 +14,13 @@ import 'package:sn_progress_dialog/progress_dialog.dart';
 bool isNumeric(String value) {
   return double.tryParse(value) != null;
 }
+
 //Controlador de editar perfil
 class ClientUpdateController {
   late BuildContext context;
   TextEditingController nameController = TextEditingController();
   TextEditingController apellidoController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-
 
   UsersProvider usersProvider = UsersProvider();
 
@@ -31,19 +31,19 @@ class ClientUpdateController {
 
   bool isEnable = true;
   User? user;
-  SharedPref _sharedPref=new SharedPref();
-
-
+  SharedPref _sharedPref = new SharedPref();
 
   Future<void> init(BuildContext context, Function refresh) async {
     this.context = context;
-    usersProvider.init(context);
     this.refresh = refresh;
     _progressDialog = ProgressDialog(context: context);
-    user=User.fromJson(await _sharedPref.read('user'));
-    nameController.text=user!.name!;
-    apellidoController.text=user!.lastname!;
-    phoneController.text=user!.phone!;
+    user = User.fromJson(await _sharedPref.read('user'));
+    // ignore: use_build_context_synchronously
+    usersProvider.init(context, sessionUser: user);
+    print(user!.sessionToken);
+    nameController.text = user!.name!;
+    apellidoController.text = user!.lastname!;
+    phoneController.text = user!.phone!;
 
     refresh();
   }
@@ -56,9 +56,8 @@ class ClientUpdateController {
     String name = nameController.text;
     String apellido = apellidoController.text;
     String phone = phoneController.text.trim();
- 
 
-    if ( name.isEmpty ||apellido.isEmpty ||phone.isEmpty ) {
+    if (name.isEmpty || apellido.isEmpty || phone.isEmpty) {
       MySnackbar.show(context, 'Debes ingresar Todos los campos');
       return;
     }
@@ -68,42 +67,38 @@ class ClientUpdateController {
           context, 'El número de teléfono debe contener solo numeros');
       return;
     }
-    if (imageFile == null) {
-      MySnackbar.show(context, 'Selecciona una imagen');
-      return;
-    }
 
     _progressDialog?.show(max: 100, msg: 'Espere un momento...');
     isEnable = false;
 
-    User myuser =User(
+    User myuser = User(
         id: user!.id,
-       // email: user!.email,
+        // email: user!.email,
         name: name,
         lastname: apellido,
         phone: phone,
-        image:user!.image);
-        
-       // password: password);
+        image: user!.image);
 
+    // password: password);
 
     Stream? stream = await usersProvider.update(myuser, imageFile);
-    stream?.listen((res) async{
-      _progressDialog?.close();
-      /* ResponseApi? responseApi = await UsersProvider().create(user); */
-     ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-     Fluttertoast.showToast(msg:responseApi.message!);
+    stream!.listen((res) async {
+      _progressDialog!.close();
+
+      // ResponseApi responseApi = await usersProvider.create(user);
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      Fluttertoast.showToast(msg: responseApi.message!);
 
       if (responseApi.success!) {
-        user=await usersProvider.getById(myuser.id!);//obteniendo el usuario en la base de datos
-        _sharedPref.save('user', myuser.toJson());
-        Navigator.restorablePushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
-
+        user = await usersProvider
+            .getById(myuser.id!); // OBTENIENDO EL USUARIO DE LA DB
+        print('Usuario obtenido: ${user!.toJson()}');
+        _sharedPref.save('user', user!.toJson());
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'client/products/list', (route) => false);
       } else {
         isEnable = true;
       }
-
-      print('Respuesta: ${responseApi?.toJson()}');
     });
   }
 

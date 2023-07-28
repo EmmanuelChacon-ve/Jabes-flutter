@@ -1,80 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:jabes/src/pages/client/products/list/update/client_update_controller.dart';
-import 'package:jabes/src/pages/register/register_controler.dart';
 
 import '../../../../../utils/my_colors.dart';
 
 class ClientUpdatePage extends StatefulWidget {
   const ClientUpdatePage({super.key});
 
-
-@override
+  @override
   _ClientUpdatePageState createState() => _ClientUpdatePageState();
 }
 
 class _ClientUpdatePageState extends State<ClientUpdatePage> {
   final ClientUpdateController _con = ClientUpdateController();
   @override
-
   void initState() {
     // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context,refresh);
+      _con.init(context, refresh);
     });
   }
-   // _textVolverEditar();
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: SizedBox(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Positioned(top: -90, left: -90, child: _circuloregis()),
-          Positioned(
-            top: 52,
-            left: -5,
-            child: _iconback(),
-          ),
-          Positioned(
-            top: 65,
-            left: 27,
-            child: _textVolverEditar(), //Texto para volver al menu
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 130),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _imageUser(),
-                  SizedBox(height: 30),
-                  _nombre(),
-                  _apellido(),
-                  _telefono(),
-                  _registrar()
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-}
 
-   Widget _imageUser() {
+  // _textVolverEditar();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Positioned(top: -90, left: -90, child: _circuloregis()),
+            Positioned(
+              top: 52,
+              left: -5,
+              child: _iconback(),
+            ),
+            Positioned(
+              top: 65,
+              left: 27,
+              child: _textVolverEditar(), //Texto para volver al menu
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 130),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _imageUser(),
+                    SizedBox(height: 30),
+                    _nombre(),
+                    _apellido(),
+                    _telefono(),
+                    _registrar()
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _imageUser() {
     return GestureDetector(
       onTap: _con.showAlertDialog,
       child: CircleAvatar(
         // ignore: unnecessary_null_comparison
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
-            :_con.user!.image!= null 
-            ? NetworkImage( _con.user!.image!)
-            : const AssetImage('asset/img/user_profile_2.png') as ImageProvider,
+            : _con.user?.image != null
+                ? NetworkImage(_con.user!.image!)
+                : const AssetImage('asset/img/user_profile_2.png')
+                    as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
       ),
@@ -92,7 +91,6 @@ Widget build(BuildContext context) {
     );
   }
 
-
   Widget _iconback() {
     return IconButton(
         onPressed: _con.goTologinPage,
@@ -101,8 +99,6 @@ Widget build(BuildContext context) {
           color: Colors.white,
         ));
   }
-
-  
 
   Widget _nombre() {
     return Container(
@@ -173,21 +169,24 @@ Widget build(BuildContext context) {
       ),
     );
   }
+
   Widget _textVolverEditar() {
-   return const Text('Volver',
-       style: TextStyle(
-         color: Colors.white,
-         fontWeight: FontWeight.bold,
-         fontSize: 22,
-       ));
- }
+    return const Text('Volver',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 22,
+        ));
+  }
 
   Widget _registrar() {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: ElevatedButton(
-        onPressed: () { _con.update();},
+        onPressed: () {
+          _con.update();
+        },
         style: ElevatedButton.styleFrom(
             backgroundColor: MyColors
                 .primaryColor, // Utiliza el color MyColors.primaryColor como fondo del botón

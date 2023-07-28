@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../provider/users_provider.dart';
+
 class SharedPref {
   void save(String key, value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,9 +28,11 @@ class SharedPref {
     return prefs.remove(key);
   }
 
-  void logout(BuildContext context) async {
+  void logout(BuildContext context, String idUser) async {
+    UsersProvider usersProvider = UsersProvider();
+    usersProvider.init(context);
+    await usersProvider.logout(idUser);
     await remove('user');
-    // ignore: use_build_context_synchronously
     Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
   }
 }
