@@ -6,7 +6,7 @@ import 'package:jabes/src/models/response_api.dart';
 import 'package:jabes/src/models/user.dart';
 import 'package:jabes/src/provider/users_provider.dart';
 import 'package:jabes/src/utils/my_snackbar.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';

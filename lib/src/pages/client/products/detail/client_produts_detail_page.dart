@@ -3,9 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:jabes/src/models/product.dart';
 import 'package:jabes/src/pages/client/products/detail/client_products_detail_controller.dart';
-import 'package:jabes/src/pages/client/products/list/client_products_list_controller.dart';
+
 import 'package:jabes/src/utils/my_colors.dart';
 
+// ignore: must_be_immutable
 class CLientProductsDetailPage extends StatefulWidget {
   Product? product;
   CLientProductsDetailPage({super.key, this.product});
@@ -73,7 +74,7 @@ class _CLientProductsDetailPageState extends State<CLientProductsDetailPage> {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 30),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _con.addToDonation,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             padding: EdgeInsets.symmetric(vertical: 5),

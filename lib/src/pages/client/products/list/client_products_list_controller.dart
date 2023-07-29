@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
+import 'package:flutter/material.dart';
 import 'package:jabes/src/models/category.dart';
 import 'package:jabes/src/provider/category_provider.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
