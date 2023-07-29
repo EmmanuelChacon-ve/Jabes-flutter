@@ -107,48 +107,54 @@ class _CLientProductsDetailPageState extends State<CLientProductsDetailPage> {
   }
 
   Widget _imageSlideshow() {
-    return SafeArea(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.4,
       child: Stack(
         children: [
-          ImageSlideshow(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.4,
-            initialPage: 0,
-            indicatorColor: MyColors.primaryColor,
-            indicatorBackgroundColor: Colors.grey,
-            onPageChanged: (value) {
-              print('Page changed: $value');
-            },
-            autoPlayInterval: 30000,
-            children: [
-              FadeInImage(
-                image: _con.product?.image1 != null
-                    ? NetworkImage(_con.product!.image1!)
-                    : const AssetImage('asset/img/no-image.png')
-                        as ImageProvider,
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: const AssetImage('asset/img/no-image.png'),
-              ),
-              FadeInImage(
-                image: _con.product?.image2 != null
-                    ? NetworkImage(_con.product!.image2!)
-                    : const AssetImage('asset/img/no-image.png')
-                        as ImageProvider,
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: const AssetImage('asset/img/no-image.png'),
-              ),
-              FadeInImage(
-                image: _con.product?.image3 != null
-                    ? NetworkImage(_con.product!.image3!)
-                    : const AssetImage('asset/img/no-image.png')
-                        as ImageProvider,
-                fit: BoxFit.cover,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: const AssetImage('asset/img/no-image.png'),
-              ),
-            ],
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ImageSlideshow(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.4,
+              initialPage: 0,
+              indicatorColor: MyColors.primaryColor,
+              indicatorBackgroundColor: Colors.grey,
+              onPageChanged: (value) {
+                print('Page changed: $value');
+              },
+              autoPlayInterval: 30000,
+              children: [
+                FadeInImage(
+                  image: _con.product?.image1 != null
+                      ? NetworkImage(_con.product!.image1!)
+                      : const AssetImage('asset/img/no-image.png')
+                          as ImageProvider,
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(milliseconds: 50),
+                  placeholder: const AssetImage('asset/img/no-image.png'),
+                ),
+                FadeInImage(
+                  image: _con.product?.image2 != null
+                      ? NetworkImage(_con.product!.image2!)
+                      : const AssetImage('asset/img/no-image.png')
+                          as ImageProvider,
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(milliseconds: 50),
+                  placeholder: const AssetImage('asset/img/no-image.png'),
+                ),
+                FadeInImage(
+                  image: _con.product?.image3 != null
+                      ? NetworkImage(_con.product!.image3!)
+                      : const AssetImage('asset/img/no-image.png')
+                          as ImageProvider,
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(milliseconds: 50),
+                  placeholder: const AssetImage('asset/img/no-image.png'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
