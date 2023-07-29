@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/user.dart';
 import '../../../../utils/shared_pref.dart';
 
-class ClientProductsListController {
+class AdminOrdersListController {
   late BuildContext context;
   SharedPref _sharedPref = SharedPref();
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -25,9 +25,5 @@ class ClientProductsListController {
 
   void openDrawer() {
     key.currentState?.openDrawer();
-  }
-
-  void gotoUpdatePage(){
-    Navigator.pushNamed(context, 'client/update');
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jabes/src/models/pago.dart';
 import 'package:jabes/src/models/response_api.dart';
@@ -10,53 +10,59 @@ import 'package:jabes/src/models/user.dart';
 import 'package:jabes/src/provider/users_provider.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 
-class PaymentController {
-  TextEditingController numericInputController = TextEditingController();
+class BienesContenidoController {
+  //crenado patron singleton para manejar una sola instancia y de esta forma cuando se desmonte borrar los valores albergados
+  static final BienesContenidoController _instance =
+      BienesContenidoController._internal();
+
+  factory BienesContenidoController() {
+    return _instance;
+  }
+//
+  BienesContenidoController._internal();
+  //
+  TextEditingController texto = TextEditingController();
+  //para el comentario
+  String descripcion = '';
+  //para la imagen
+  XFile? selectedImage;
+  //
   UsersProvider usersProvider = UsersProvider();
-
-  PaymentController() {
-    // No se necesita la inicialización duplicada de numericInputController
-    // numericInputController = TextEditingController();
+  //creando metodos set para capturar los valores
+  void setDescripcion(String valor) {
+    descripcion = valor;
   }
 
-  void dispose() {
-    numericInputController.dispose();
+  void setImagen(XFile? imagen) {
+    selectedImage = imagen;
   }
 
-  void onCompleteButtonPressed(
-    BuildContext context,
-    String valor,
-    XFile? image,
-    String id,
-  ) {
-    if (valor.isEmpty) {
-      _showSnackbar(context, 'Debes ingresar el monto a contribuir.');
-      return;
-    }
+  //limpiar data
+  void limpiar() {
+    descripcion = '';
+    selectedImage = null;
+  }
+  //
 
-    if (!isNumeric(valor)) {
+  void onPressedButton(BuildContext context, String id) {
+    //si esta vacio el input
+    if (descripcion == '') {
       _showSnackbar(
-          context, 'El monto a contribuir debe contener solo números.');
+          context, 'Debes ingresar Una descripcion del Bien a donar.');
       return;
     }
 
-    if (image == null) {
+    if (selectedImage == null) {
       _showSnackbar(context, 'Debes adjuntar una captura de pantalla.');
       return;
     }
-
-    double amount = double.parse(valor);
-    _showSnackbar(
-        context, 'Monto a contribuir: \$${amount.toStringAsFixed(2)}');
     subirDatos(
-      amount: amount,
-      imagen: image,
-      id: id,
-      userProvider: usersProvider,
-      buildContext: context,
-    );
+        descripcion: descripcion,
+        imagen: selectedImage!,
+        id: id,
+        userProvider: usersProvider,
+        buildContext: context);
 
-    //creando cuadro de espera
     showDialog(
       context: context,
       barrierDismissible:
@@ -76,40 +82,33 @@ class PaymentController {
       },
     );
   }
-
-  void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  bool isNumeric(String value) {
-    return double.tryParse(value) != null;
-  }
 }
 
+void _showSnackbar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}
+
+//metodo para subir datos
 void subirDatos({
-  required double amount,
+  required String descripcion,
   required XFile imagen,
   required String id,
-  String descripcion = 'Sin descripcion',
   required UsersProvider userProvider,
   required BuildContext buildContext,
 }) async {
   SharedPref _sharedPref = SharedPref();
   Map<String, dynamic> user = await _sharedPref.read('user');
   final User informacionUser = User.fromJson(user);
-
-  String cantidad = amount.toStringAsFixed(2);
-
   File imagenConvertida = File(imagen.path);
 
   DateTime now = DateTime.now();
 
   Pagos informacionPago = Pagos(
     idPaymentMethod: id,
-    amount: amount,
-    nameCause: 'prueba3',
+    amount: 0,
+    nameCause: 'prueba5',
     date: now,
     description: descripcion,
     idUser: informacionUser.id!,
@@ -117,9 +116,9 @@ void subirDatos({
 
   Stream? stream =
       await userProvider.insertPago(informacionPago, imagenConvertida);
+
   final Duration timeOutDuration = Duration(seconds: 5);
   Timer? timer;
-
   // Iniciar el temporizador para el tiempo de espera
   void startTimer() {
     timer = Timer(timeOutDuration, () {
@@ -154,11 +153,12 @@ void subirDatos({
   stream?.listen((e) {
     // Cancelar el temporizador si el stream emite un valor antes de que ocurra el tiempo de espera
     timer?.cancel();
-
     Navigator.of(buildContext, rootNavigator: true).pop();
     ResponseApi responseApi = ResponseApi.fromJson(json.decode(e));
     if (responseApi.success!) {
       Navigator.pushNamed(buildContext, 'client/payment/paymentMethods');
+      BienesContenidoController borrar = BienesContenidoController();
+      borrar.limpiar();
     } else {
       // Mostrar cuadro de diálogo con el mensaje "Intenta más tarde"
       showDialog(
@@ -182,13 +182,4 @@ void subirDatos({
   });
 }
 
-String formatDate(DateTime dateTime) {
-  int year = dateTime.year;
-  int month = dateTime.month;
-  int day = dateTime.day;
-  return "$year-${_addLeadingZero(month)}-${_addLeadingZero(day)}";
-}
-
-String _addLeadingZero(int number) {
-  return number.toString().padLeft(2, '0');
-}
+  //metodo para limpiar despues de enviar peticion

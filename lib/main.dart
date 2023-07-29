@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_file.dart';
 import 'package:jabes/src/pages/admin/orders/list/admin_orders_list_page.dart';
+import 'package:jabes/src/pages/client/payment/bienes_pago.dart';
 import 'package:jabes/src/pages/client/payment/individual_pago.dart';
 import 'package:jabes/src/pages/client/payment/payment_methods.dart';
+import 'package:jabes/src/pages/client/payment/widgets_payment/container_payment.dart';
 import 'package:jabes/src/pages/client/products/list/client_products_list_page.dart';
+import 'package:jabes/src/pages/client/products/list/update/client_update_page.dart';
 import 'package:jabes/src/pages/login/login_page.dart';
 import 'package:jabes/src/pages/org/orders/list/org_orders_list_page.dart';
 import 'package:jabes/src/pages/register/register_page.dart';
@@ -37,12 +40,12 @@ class _MyWidgetState extends State<MyApp> {
         'roles': (BuildContext context) => const RolesPage(),
         'client/products/list': (BuildContext context) =>
             const ClientProductsListPage(),
+        'client/update': (BuildContext context) => const ClientUpdatePage(),
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),
         'client/payment/paymentMethods': (BuildContext context) =>
             const MetodosPago(),
-        'client/payment/individual': (BuildContext context) => PagoIndividual(),
       },
       theme: ThemeData(
         fontFamily: 'Nimbusans',

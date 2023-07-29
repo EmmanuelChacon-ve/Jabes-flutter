@@ -1,8 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jabes/src/models/payment.dart';
+import 'package:jabes/src/pages/client/payment/bienes_pago.dart';
 import 'package:jabes/src/pages/client/payment/individual_pago.dart';
+import 'package:jabes/src/pages/client/payment/prueba.dart';
 import '../../../provider/users_provider.dart';
+import '../../../utils/my_colors.dart';
 // import '../../../models/response_api.dart';
 
 class Informacion {
@@ -14,7 +16,6 @@ class Informacion {
     return paymentList;
   }
 }
-
 //agregar drawer y menuDrawer
 //manejando vista por el momento solo logica en el front
 //ya qeu se maneja una sola funcion
@@ -24,6 +25,10 @@ class MetodosPago extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   leading: _menuDrawer(),
+      //   backgroundColor: MyColors.primaryColor,
+      // ),
       body: PrincipalContainer(hijo: ListMethods()),
     );
   }
@@ -73,12 +78,15 @@ class ListMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
+      //obteniendo informacion del back al invocar el metodo init
       future: informacion.init(),
       builder: (context, snapshot) {
+        //esperando mientras se obtiene los datos
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(
+              //manejando el posible error de no recibir la informacion
               child: Text('Error al obtener los métodos de pago.'));
         } else {
           List<dynamic> paymentList = snapshot.data!;
@@ -86,7 +94,11 @@ class ListMethods extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: 25),
             itemCount: paymentList.length,
             itemBuilder: (context, index) {
+              Payment;
+              //recorriendo array y obteniendo el objeto
               Payment payment = paymentList[index];
+              //id
+              String idPayment = payment.idPaymentType;
               //nombres
               List<String> appNames = payment.selectorIdPaymentType
                   .map((selector) => selector.nombre)
@@ -111,6 +123,7 @@ class ListMethods extends StatelessWidget {
                 ),
                 children: [
                   MethodsOptions(
+                    idPago: idPayment,
                     appNames: appNames,
                     appImage: appImage,
                     imagen: methods[index]['urlImagen']!,
@@ -129,12 +142,13 @@ class MethodsOptions extends StatelessWidget {
   final List<String> appNames;
   final List<String> appImage;
   final String imagen;
-
+  final String idPago;
   const MethodsOptions({
     Key? key,
     required this.appNames,
     required this.appImage,
     required this.imagen,
+    required this.idPago,
   }) : super(key: key);
 
   @override
@@ -148,14 +162,30 @@ class MethodsOptions extends StatelessWidget {
 
         return ListTile(
           //a diferencia de pushNamed este permite el elemento que deseo crear ideal para pasar la propiedad imagen
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PagoIndividual(
+          onTap: () {
+            if (idPago == '3' || idPago == '2' || idPago == '5') {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Prueba(
+                        id: idPago,
                         imagen: imagen,
                         nombre: appName,
-                        logo: imagePath,
-                      ))),
+                        logo: imagePath),
+                  ));
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PagoIndividual(
+                            imagen: imagen,
+                            nombre: appName,
+                            logo: imagePath,
+                            id: idPago,
+                          )));
+            }
+          },
+
           leading: CircleAvatar(
             backgroundImage: AssetImage(imagePath),
           ),

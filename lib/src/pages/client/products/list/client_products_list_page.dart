@@ -11,7 +11,7 @@ class ClientProductsListPage extends StatefulWidget {
 }
 
 class _ClientProductsListPageState extends State<ClientProductsListPage> {
-  ClientProductsListController _con = ClientProductsListController();
+  final ClientProductsListController _con = ClientProductsListController();
   String? userImage;
   @override
   void initState() {
@@ -28,7 +28,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     return Scaffold(
       key: _con.key,
       appBar: AppBar(
-        leading: _menuDrawer(),
+        leading: _menuDrawer(), 
+        backgroundColor: MyColors.primaryColor,
       ),
       drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
       body: Center(
@@ -100,9 +101,10 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   )
                 ],
               )),
-          const ListTile(
-            title: Text('Editar Perfil'),
-            trailing: Icon(Icons.edit_outlined),
+           ListTile(
+            onTap:_con.gotoUpdatePage,
+            title: const Text('Editar Perfil'),
+            trailing: const Icon(Icons.edit_outlined),
           ),
           ListTile(
             onTap: () =>
@@ -113,10 +115,6 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           const ListTile(
             title: Text('Registro de donaciones'),
             trailing: Icon(Icons.picture_as_pdf),
-          ),
-          const ListTile(
-            title: Text('Seleccionar rol'),
-            trailing: Icon(Icons.person_outlined),
           ),
           ListTile(
             onTap: _con.logout,

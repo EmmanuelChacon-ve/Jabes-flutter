@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 //variable global
 XFile? imagenGlobal;
+late String idPayment;
 
 //
 class PagoIndividual extends StatelessWidget {
@@ -14,13 +15,16 @@ class PagoIndividual extends StatelessWidget {
   final String imagen;
   final String nombre;
   final String logo;
+  final String id;
   PagoIndividual(
       {Key? key,
       this.imagen = "asset/img/no-image.png",
       this.nombre = 'Ah ocurrido un error',
-      this.logo = 'asset/img/no-image.png'})
-      : super(key: key);
-
+      this.logo = 'asset/img/no-image.png',
+      required this.id})
+      : super(key: key) {
+    idPayment = id;
+  }
   final PaymentController _paymentController = PaymentController();
   @override
   Widget build(BuildContext context) {
@@ -127,7 +131,8 @@ class _HijoContainerState extends State<HijoContainer> {
                     height: 60,
                     onPressed: () {
                       widget.paymentController.onCompleteButtonPressed(
-                          context, numericInputValue, imagenGlobal);
+                          context, numericInputValue, imagenGlobal, idPayment);
+                      imagenGlobal = null;
                     },
                   ),
                 ],
