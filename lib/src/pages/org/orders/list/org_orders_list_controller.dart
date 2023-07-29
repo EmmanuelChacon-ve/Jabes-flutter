@@ -24,11 +24,23 @@ class OrgOrdersListController {
   }
 
   void logout() {
-    _sharedPref.logout(context);
+    _sharedPref.logout(context, user!.id!);
   }
 
   void openDrawer() {
     key.currentState?.openDrawer();
+  }
+
+  void goToCategoryCreate() {
+    Navigator.pushNamed(context, 'org/categories/create');
+  }
+
+  void goToProdutsCreate() {
+    Navigator.pushNamed(context, 'org/produts/create');
+  }
+
+  void goToRoles() {
+    Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 
   Future<List<User>> getAllUsers() async {

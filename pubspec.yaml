@@ -41,7 +41,9 @@ dependencies:
   sn_progress_dialog: ^1.1.3
   cupertino_icons: ^1.0.2
   firebase_core: ^2.15.0
-  
+  fluttertoast: ^8.2.2
+  flutter_image_slideshow: ^0.1.6
+  modal_bottom_sheet: ^3.0.0-pre
 
 dev_dependencies:
   flutter_test:

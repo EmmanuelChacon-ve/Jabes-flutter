@@ -139,17 +139,20 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
                   )
                 ],
               )),
-          const ListTile(
-            title: Text('Editar Perfil'),
-            trailing: Icon(Icons.edit_outlined),
+          ListTile(
+            onTap: _con.goToRoles,
+            title: const Text('Seleccionar Rol'),
+            trailing: const Icon(Icons.person_3_outlined),
           ),
-          const ListTile(
-            title: Text('Donar/Voluntariado'),
-            trailing: Icon(Icons.volunteer_activism),
+          ListTile(
+            onTap: _con.goToCategoryCreate,
+            title: const Text('Crear Categoria'),
+            trailing: const Icon(Icons.list_alt),
           ),
-          const ListTile(
-            title: Text('Registro de donaciones'),
-            trailing: Icon(Icons.picture_as_pdf),
+          ListTile(
+            onTap: _con.goToProdutsCreate,
+            title: const Text('Crear Organizacion'),
+            trailing: const Icon(Icons.outdoor_grill_outlined),
           ),
           ListTile(
             onTap: _con.logout,

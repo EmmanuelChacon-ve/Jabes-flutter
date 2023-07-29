@@ -1,6 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
+import 'package:jabes/src/models/category.dart';
+import 'package:jabes/src/provider/category_provider.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../../../../models/product.dart';
 import '../../../../models/user.dart';
+import '../../../../provider/products_provider.dart';
 import '../../../../utils/shared_pref.dart';
+import '../detail/client_produts_detail_page.dart';
 
 class ClientProductsListController {
   late BuildContext context;
@@ -8,6 +15,10 @@ class ClientProductsListController {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   Function? refresh;
   User? user;
+  CategoriesProvider categoriesProvider = CategoriesProvider();
+  ProductsProvider productsProvider = new ProductsProvider();
+
+  List<Categorys> categories = [];
 
   Future<void> init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -16,18 +27,47 @@ class ClientProductsListController {
     if (userData != null) {
       user = User.fromJson(userData);
     }
-    refresh();
+    print('User data: $userData');
+    productsProvider.init(context, user!);
+
+    categoriesProvider.init(context, user!);
+    getCategories();
+  }
+
+  Future<List<Product>> getProducts(
+      String idCategory /* , String productName */) async {
+/*     if (productName.isEmpty) { */
+    return await productsProvider.getByCategory(idCategory);
+    /*   } else {
+      return await _productsProvider.getByCategoryAndProductName(
+          idCategory, productName);
+    } */
+  }
+
+  void getCategories() async {
+    categories = await categoriesProvider.getAll();
+    print('Categories: $categories');
+    refresh!();
+  }
+
+  void gotoDetail(Product product) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => CLientProductsDetailPage(
+        product: product,
+      ),
+    );
   }
 
   void logout() {
-    _sharedPref.logout(context);
+    _sharedPref.logout(context, user!.id!);
   }
 
   void openDrawer() {
     key.currentState?.openDrawer();
   }
 
-  void gotoUpdatePage(){
+  void gotoUpdatePage() {
     Navigator.pushNamed(context, 'client/update');
   }
 }
