@@ -7,6 +7,7 @@ import 'package:jabes/src/pages/org/orders/list/org_orders_list_page.dart';
 import 'package:jabes/src/pages/register/register_page.dart';
 import 'package:jabes/src/pages/roles/roles_page.dart';
 import 'package:jabes/src/utils/my_colors.dart';
+import 'package:jabes/src/pages/admin/orders/list/admin_rol_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,8 @@ class _MyWidgetState extends State<MyApp> {
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),
+        'admin/orders/privileges': (BuildContext context) =>
+            const AdminRolPage(),
       },
       theme: ThemeData(
         fontFamily: 'Nimbusans',

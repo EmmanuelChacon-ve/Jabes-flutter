@@ -112,8 +112,10 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
             title: Text('Registro de donaciones'),
             trailing: Icon(Icons.picture_as_pdf),
           ),
-          const ListTile(
-            title: Text('Seleccionar rol'),
+          ListTile(
+            onTap: () =>
+                Navigator.pushNamed(context, 'admin/orders/privileges'),
+            title: Text('Asignar rol'),
             trailing: Icon(Icons.person_outlined),
           ),
           ListTile(

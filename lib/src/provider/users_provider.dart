@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/api/environment.dart';
 import 'package:jabes/src/models/response_api.dart';
+import 'package:jabes/src/models/rol.dart';
 import 'package:jabes/src/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:jabes/src/models/userData.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 import 'package:path/path.dart';
 
@@ -20,6 +22,44 @@ class UsersProvider {
   void init(BuildContext context, {String token = ''}) {
     this.context = context;
     this.token = token;
+  }
+
+//creamos funcion para llamar a los usuarios
+  Future<List<User>> getUsuarios() async {
+    Uri url = Uri.http(_url, '/api/admin/getAllUsers');
+    Map<String, String> headers = {'Content-type': 'application/json'};
+
+    try {
+      final res = await http.get(url, headers: headers);
+      final List<dynamic> dataList = json.decode(res.body);
+
+      // Mapear la lista de datos a una lista de objetos User
+      List<User> users = dataList.map((data) => User.fromJson(data)).toList();
+
+      return users;
+    } catch (e) {
+      print('Error: $e');
+      throw e; // Puedes lanzar la excepción para manejarla en el FutureBuilder
+    }
+  }
+
+//creamos funcion para llamar a los roles
+  Future<List<Rol>> getRol() async {
+    Uri url = Uri.http(_url, '/api/admin/getRol');
+    Map<String, String> headers = {'Content-type': 'application/json'};
+
+    try {
+      final res = await http.get(url, headers: headers);
+      final List<dynamic> dataList = json.decode(res.body);
+
+      // Mapear la lista de datos a una lista de objetos User
+      List<Rol> users = dataList.map((data) => Rol.fromJson(data)).toList();
+
+      return users;
+    } catch (e) {
+      print('Error: $e');
+      throw e; // Puedes lanzar la excepción para manejarla en el FutureBuilder
+    }
   }
 
   Future<User?> getById(String id) async {
@@ -118,6 +158,22 @@ class UsersProvider {
       return responseApi;
     } catch (e) {
       print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi?> insertarNuevoRol(UserData user) async {
+    try {
+      Uri url = Uri.http(_url, '/api/admin/insertRol');
+      Map<String, String> headers = {'Content-type': 'application/json'};
+      String bodyParams = json.encode(user.toJson());
+
+      final res = await http.post(url, headers: headers, body: bodyParams);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Estamos experimentando el siguiente error: $e');
       return null;
     }
   }
