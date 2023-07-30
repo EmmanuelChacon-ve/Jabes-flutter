@@ -3,7 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:jabes/src/pages/client/payment/widgets_payment/green_container.dart';
 
 class ModuleOrganizacion extends StatelessWidget {
-  const ModuleOrganizacion({super.key});
+  final String nombre;
+  const ModuleOrganizacion({super.key, required this.nombre});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,9 @@ class ModuleOrganizacion extends StatelessWidget {
       widthFactor: 1.0,
       child: Column(
         children: [
-          const GreenContainer(
+          GreenContainer(
             //implementar cuando la persona ya haya seleccionado una organizacion
-            container: 'Christian Science Latam',
+            container: '$nombre',
             height: 40,
           ),
           GreenContainer(

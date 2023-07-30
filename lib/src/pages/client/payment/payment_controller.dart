@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jabes/src/models/pago.dart';
+import 'package:jabes/src/models/product.dart';
 import 'package:jabes/src/models/response_api.dart';
 import 'package:jabes/src/models/user.dart';
+import 'package:jabes/src/pages/client/payment/payment_methods.dart';
 import 'package:jabes/src/provider/users_provider.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 
@@ -28,6 +30,7 @@ class PaymentController {
     String valor,
     XFile? image,
     String id,
+    Product categoria,
   ) {
     if (valor.isEmpty) {
       _showSnackbar(context, 'Debes ingresar el monto a contribuir.');
@@ -49,12 +52,12 @@ class PaymentController {
     _showSnackbar(
         context, 'Monto a contribuir: \$${amount.toStringAsFixed(2)}');
     subirDatos(
-      amount: amount,
-      imagen: image,
-      id: id,
-      userProvider: usersProvider,
-      buildContext: context,
-    );
+        amount: amount,
+        imagen: image,
+        id: id,
+        userProvider: usersProvider,
+        buildContext: context,
+        categoria: categoria);
 
     //creando cuadro de espera
     showDialog(
@@ -95,6 +98,7 @@ void subirDatos({
   String descripcion = 'Sin descripcion',
   required UsersProvider userProvider,
   required BuildContext buildContext,
+  required Product categoria,
 }) async {
   SharedPref _sharedPref = SharedPref();
   Map<String, dynamic> user = await _sharedPref.read('user');
@@ -109,7 +113,7 @@ void subirDatos({
   Pagos informacionPago = Pagos(
     idPaymentMethod: id,
     amount: amount,
-    nameCause: 'prueba3',
+    nameCause: categoria.name!,
     date: now,
     description: descripcion,
     idUser: informacionUser.id!,
@@ -117,48 +121,20 @@ void subirDatos({
 
   Stream? stream =
       await userProvider.insertPago(informacionPago, imagenConvertida);
-  final Duration timeOutDuration = Duration(seconds: 5);
-  Timer? timer;
 
   // Iniciar el temporizador para el tiempo de espera
-  void startTimer() {
-    timer = Timer(timeOutDuration, () {
-      // Si entra en esta función, significa que ha ocurrido el tiempo de espera
-      // Cerrar el cuadro de carga
-      Navigator.of(buildContext, rootNavigator: true).pop();
-
-      // Mostrar el cuadro de diálogo de error de tiempo de espera
-      showDialog(
-        context: buildContext,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Tiempo de espera agotado. Inténtalo nuevamente."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'client/payment/paymentMethods');
-                },
-                child: Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-    });
-  }
 
   // Iniciar el temporizador al llamar a subirDatos
-  startTimer();
 
   stream?.listen((e) {
     // Cancelar el temporizador si el stream emite un valor antes de que ocurra el tiempo de espera
-    timer?.cancel();
-
     Navigator.of(buildContext, rootNavigator: true).pop();
     ResponseApi responseApi = ResponseApi.fromJson(json.decode(e));
     if (responseApi.success!) {
-      Navigator.pushNamed(buildContext, 'client/payment/paymentMethods');
+      Navigator.push(
+          buildContext,
+          MaterialPageRoute(
+              builder: (context) => MetodosPago(categoria: categoria)));
     } else {
       // Mostrar cuadro de diálogo con el mensaje "Intenta más tarde"
       showDialog(

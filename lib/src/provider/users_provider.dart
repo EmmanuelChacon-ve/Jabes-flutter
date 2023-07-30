@@ -2,32 +2,63 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/api/environment.dart';
 import 'package:jabes/src/models/pago.dart';
 import 'package:jabes/src/models/response_api.dart';
 import 'package:jabes/src/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:jabes/src/utils/shared_pref.dart';
 import 'package:path/path.dart';
 
 class UsersProvider {
   String _url = Environment.API_JABES;
   String _api = '/api/users';
+
   late BuildContext context;
-  void init(BuildContext context) {
+  User? sessionUser;
+
+  void init(BuildContext context, {User? sessionUser}) {
     this.context = context;
+    this.sessionUser = sessionUser;
   }
 
   Future<User?> getById(String id) async {
     try {
-      Uri url = Uri.http(_url, '$_api//findById/$id');
-      Map<String, String> headers = {'Content-type': 'application/json'};
+      Uri url = Uri.http(_url, '$_api/findById/$id');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser?.sessionToken ?? ''
+      };
       final res = await http.get(url, headers: headers);
+      if (res.statusCode == 401) {
+        //NO AUTORIZADO
+        Fluttertoast.showToast(msg: 'Tu sesion expiró');
+        SharedPref().logout(context, sessionUser!.id!);
+      }
+
       final data = json.decode(res.body);
       User user = User.fromJson(data);
       return user;
     } catch (e) {
       print('Error: $e');
       return null;
+    }
+  }
+
+  Future<List<User>> getAllUsers() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAll');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<User> userList = [];
+      for (var item in data) {
+        userList.add(User.fromJson(item));
+      }
+      return userList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
     }
   }
 
@@ -55,6 +86,7 @@ class UsersProvider {
     try {
       Uri url = Uri.http(_url, '$_api/update');
       final request = http.MultipartRequest('PUT', url);
+      request.headers['Authorization'] = sessionUser?.sessionToken ?? '';
 
       if (image != null) {
         image;
@@ -65,6 +97,12 @@ class UsersProvider {
 
       request.fields['user'] = json.encode(user);
       final response = await request.send(); // ENVIARA LA PETICION
+
+      if (response.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Tu sesion expiró');
+        SharedPref().logout(context, sessionUser!.id!);
+      }
+
       return response.stream.transform(utf8.decoder);
     } catch (e) {
       print('Error: $e');
@@ -76,6 +114,21 @@ class UsersProvider {
     try {
       Uri url = Uri.http(_url, '$_api/create');
       String bodyParams = json.encode(user);
+      Map<String, String> headers = {'Content-type': 'application/json'};
+      final res = await http.post(url, headers: headers, body: bodyParams);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi?> logout(String idUser) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/logout');
+      String bodyParams = json.encode({'id': idUser});
       Map<String, String> headers = {'Content-type': 'application/json'};
       final res = await http.post(url, headers: headers, body: bodyParams);
       final data = json.decode(res.body);
@@ -102,6 +155,7 @@ class UsersProvider {
     }
   }
 
+  //obteniendo metodos de pago
   dynamic metodosDePago() async {
     Uri url = Uri.http(_url, '$_api/payment');
     Map<String, String> headers = {'Content-type': 'application/json'};

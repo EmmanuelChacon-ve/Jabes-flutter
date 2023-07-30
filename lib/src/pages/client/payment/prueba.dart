@@ -1,5 +1,7 @@
+import 'package:jabes/src/models/product.dart';
 import 'package:jabes/src/pages/client/payment/payment_controller.dart';
 import 'package:jabes/src/pages/client/payment/payment_controller_other.dart';
+import 'package:jabes/src/pages/client/payment/payment_methods.dart';
 import 'package:jabes/src/pages/client/payment/widgets_payment/boton_imagen.dart';
 import 'package:jabes/src/pages/client/payment/widgets_payment/container_payment.dart';
 import 'package:jabes/src/pages/client/payment/widgets_payment/green_container.dart';
@@ -21,12 +23,14 @@ class Prueba extends StatelessWidget {
   final String nombre;
   final String logo;
   final String id;
+  final Product categoria;
   Prueba({
     Key? key,
     this.imagen = "asset/img/no-image.png",
     this.nombre = 'Ah ocurrido un error',
     this.logo = 'asset/img/no-image.png',
     required this.id,
+    required this.categoria,
   }) : super(key: key) {
     idPayment = id;
   }
@@ -34,8 +38,13 @@ class Prueba extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PaymentContainer(
-        hijo:
-            BienesContenido(imagen: imagen, logo: logo, nombre: nombre, id: id),
+        hijo: BienesContenido(
+          imagen: imagen,
+          logo: logo,
+          nombre: nombre,
+          id: id,
+          categoria: categoria,
+        ),
       ),
     );
   }
@@ -46,12 +55,14 @@ class BienesContenido extends StatelessWidget {
   final String nombre;
   final String logo;
   final String id;
+  final Product categoria;
   const BienesContenido({
     super.key,
     required this.imagen,
     required this.nombre,
     required this.logo,
     required this.id,
+    required this.categoria,
   });
   @override
   Widget build(BuildContext context) {
@@ -63,8 +74,10 @@ class BienesContenido extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () =>
-              Navigator.pushNamed(context, 'client/payment/paymentMethods'),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MetodosPago(categoria: categoria))),
           child: const Text(
             'Regresar',
             style: TextStyle(
@@ -121,14 +134,14 @@ class BienesContenido extends StatelessWidget {
                 ),
               ),
             ),
-            const ModuleOrganizacion(),
+            ModuleOrganizacion(nombre: categoria.name!),
             ContainerFoto(controller: controller),
             GreenContainer(
               container: 'Completar',
               width: 300,
               height: 60,
               onPressed: () {
-                controller.onPressedButton(context, id);
+                controller.onPressedButton(context, id,categoria);
                 //traer informacion
                 // PaymentController controlador = PaymentController();
               },

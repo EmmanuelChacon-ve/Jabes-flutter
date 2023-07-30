@@ -5,6 +5,7 @@ import 'package:jabes/src/pages/client/payment/individual_pago.dart';
 import 'package:jabes/src/pages/client/payment/prueba.dart';
 import '../../../provider/users_provider.dart';
 import '../../../utils/my_colors.dart';
+import 'package:jabes/src/models/product.dart';
 // import '../../../models/response_api.dart';
 
 class Informacion {
@@ -21,7 +22,8 @@ class Informacion {
 //ya qeu se maneja una sola funcion
 
 class MetodosPago extends StatelessWidget {
-  const MetodosPago({super.key});
+  final Product categoria;
+  const MetodosPago({super.key, required this.categoria});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,10 @@ class MetodosPago extends StatelessWidget {
       //   leading: _menuDrawer(),
       //   backgroundColor: MyColors.primaryColor,
       // ),
-      body: PrincipalContainer(hijo: ListMethods()),
+      body: PrincipalContainer(
+          hijo: ListMethods(
+        categoria: categoria,
+      )),
     );
   }
 }
@@ -72,8 +77,8 @@ class ListMethods extends StatelessWidget {
   ];
 
   final Informacion informacion = Informacion();
-
-  ListMethods({super.key});
+  final Product categoria;
+  ListMethods({super.key, required this.categoria});
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +132,7 @@ class ListMethods extends StatelessWidget {
                     appNames: appNames,
                     appImage: appImage,
                     imagen: methods[index]['urlImagen']!,
+                    categoria: categoria,
                   ),
                 ],
               );
@@ -143,12 +149,14 @@ class MethodsOptions extends StatelessWidget {
   final List<String> appImage;
   final String imagen;
   final String idPago;
+  final Product categoria;
   const MethodsOptions({
     Key? key,
     required this.appNames,
     required this.appImage,
     required this.imagen,
     required this.idPago,
+    required this.categoria,
   }) : super(key: key);
 
   @override
@@ -163,26 +171,31 @@ class MethodsOptions extends StatelessWidget {
         return ListTile(
           //a diferencia de pushNamed este permite el elemento que deseo crear ideal para pasar la propiedad imagen
           onTap: () {
-            if (idPago == '3' || idPago == '2' || idPago == '5') {
+            if (idPago == '3' ||
+                idPago == '2' ||
+                idPago == '5' ||
+                idPago == '4') {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Prueba(
-                        id: idPago,
-                        imagen: imagen,
-                        nombre: appName,
-                        logo: imagePath),
+                      id: idPago,
+                      imagen: imagen,
+                      nombre: appName,
+                      logo: imagePath,
+                      categoria: categoria,
+                    ),
                   ));
             } else {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => PagoIndividual(
-                            imagen: imagen,
-                            nombre: appName,
-                            logo: imagePath,
-                            id: idPago,
-                          )));
+                          imagen: imagen,
+                          nombre: appName,
+                          logo: imagePath,
+                          id: idPago,
+                          categoria: categoria)));
             }
           },
 

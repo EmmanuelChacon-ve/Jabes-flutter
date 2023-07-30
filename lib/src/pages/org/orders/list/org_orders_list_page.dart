@@ -1,7 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:jabes/src/pages/org/orders/list/org_orders_list_controller.dart';
+import '../../../../models/user.dart';
 import '../../../../utils/my_colors.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 class OrgOrdersListpage extends StatefulWidget {
   const OrgOrdersListpage({super.key});
@@ -12,6 +18,7 @@ class OrgOrdersListpage extends StatefulWidget {
 
 class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
   OrgOrdersListController _con = new OrgOrdersListController();
+  Uint8List? _pdfBytes;
 
   @override
   void initState() {
@@ -32,8 +39,40 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
         backgroundColor: MyColors.primaryColor,
       ),
       drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
-      body: const Center(
-        child: Text('Organization orders List'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Organization orders List'),
+            const SizedBox(height: 20),
+            _verArchivo(),
+            _archivo(), // Aquí agregamos el botón _archivo al body
+            if (_pdfBytes != null)
+              Expanded(
+                child: PDFView(
+                  pdfData: _pdfBytes!,
+                  enableSwipe: true,
+                  swipeHorizontal: true,
+                  autoSpacing: false,
+                  pageFling: false,
+                  pageSnap: true,
+                  defaultPage: 0,
+                  fitPolicy: FitPolicy.BOTH,
+                  preventLinkNavigation: false,
+                  onRender: (_pages) {},
+                  onError: (error) {
+                    print(error.toString());
+                  },
+                  onPageError: (page, error) {
+                    print('$page: ${error.toString()}');
+                  },
+                  onViewCreated: (PDFViewController pdfViewController) {
+                    // Puedes guardar una referencia al controlador del PDF si lo necesitas
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -100,17 +139,20 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
                   )
                 ],
               )),
-          const ListTile(
-            title: Text('Editar Perfil'),
-            trailing: Icon(Icons.edit_outlined),
+          ListTile(
+            onTap: _con.goToRoles,
+            title: const Text('Seleccionar Rol'),
+            trailing: const Icon(Icons.person_3_outlined),
           ),
-          const ListTile(
-            title: Text('Donar/Voluntariado'),
-            trailing: Icon(Icons.volunteer_activism),
+          ListTile(
+            onTap: _con.goToCategoryCreate,
+            title: const Text('Crear Categoria'),
+            trailing: const Icon(Icons.list_alt),
           ),
-          const ListTile(
-            title: Text('Registro de donaciones'),
-            trailing: Icon(Icons.picture_as_pdf),
+          ListTile(
+            onTap: _con.goToProdutsCreate,
+            title: const Text('Crear Organizacion'),
+            trailing: const Icon(Icons.outdoor_grill_outlined),
           ),
           ListTile(
             onTap: _con.logout,
@@ -118,6 +160,72 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
             trailing: const Icon(Icons.power_settings_new),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _archivo() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+      child: ElevatedButton(
+        onPressed: () async {
+          // Obtener la lista de usuarios
+          List<User> users = await _con.getAllUsers();
+
+          // Generar el PDF
+          Uint8List pdfBytes = await _con.generatePdfBytes(users);
+
+          // Guardar el PDF en el directorio temporal del dispositivo
+          String fileName = "users_report.pdf";
+          Directory tempDir = await getTemporaryDirectory();
+          String filePath = "${tempDir.path}/$fileName";
+          File pdfFile = File(filePath);
+          await pdfFile.writeAsBytes(pdfBytes);
+
+          // Abrir el archivo PDF con la aplicación predeterminada
+          OpenResult result = await OpenFile.open(filePath);
+          print(result.message);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyColors.primaryColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
+        child: const Text('Descargar PDF'),
+      ),
+    );
+  }
+
+  Widget _verArchivo() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+      child: ElevatedButton(
+        onPressed: () async {
+          // Obtener la lista de usuarios
+          List<User> users = await _con.getAllUsers();
+
+          // Generar el PDF
+          Uint8List pdfBytes = await _con.generatePdfBytes(users);
+
+          setState(() {
+            _pdfBytes =
+                pdfBytes; // Actualizamos los bytes del PDF en el estado para que se muestre en el visor
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyColors.primaryColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
+        child: const Text('Ver PDF en la pantalla'),
       ),
     );
   }

@@ -103,7 +103,7 @@ class RegisterController {
         isEnable = true;
       }
 
-      print('Respuesta: ${responseApi?.toJson()}');
+      print('Respuesta: ${responseApi.toJson()}');
     });
   }
 

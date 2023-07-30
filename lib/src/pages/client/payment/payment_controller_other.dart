@@ -5,8 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jabes/src/models/pago.dart';
+import 'package:jabes/src/models/product.dart';
 import 'package:jabes/src/models/response_api.dart';
 import 'package:jabes/src/models/user.dart';
+import 'package:jabes/src/provider/products_provider.dart';
 import 'package:jabes/src/provider/users_provider.dart';
 import 'package:jabes/src/utils/shared_pref.dart';
 
@@ -44,7 +46,7 @@ class BienesContenidoController {
   }
   //
 
-  void onPressedButton(BuildContext context, String id) {
+  void onPressedButton(BuildContext context, String id, Product categoria) {
     //si esta vacio el input
     if (descripcion == '') {
       _showSnackbar(
@@ -61,7 +63,8 @@ class BienesContenidoController {
         imagen: selectedImage!,
         id: id,
         userProvider: usersProvider,
-        buildContext: context);
+        buildContext: context,
+        categoria: categoria);
 
     showDialog(
       context: context,
@@ -97,6 +100,7 @@ void subirDatos({
   required String id,
   required UsersProvider userProvider,
   required BuildContext buildContext,
+  required Product categoria,
 }) async {
   SharedPref _sharedPref = SharedPref();
   Map<String, dynamic> user = await _sharedPref.read('user');
@@ -108,7 +112,7 @@ void subirDatos({
   Pagos informacionPago = Pagos(
     idPaymentMethod: id,
     amount: 0,
-    nameCause: 'prueba5',
+    nameCause: categoria.name!,
     date: now,
     description: descripcion,
     idUser: informacionUser.id!,
@@ -136,7 +140,7 @@ void subirDatos({
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'client/payment/paymentMethods');
+                  Navigator.pushNamed(context, 'client/products/list');
                 },
                 child: Text("OK"),
               ),
@@ -156,7 +160,7 @@ void subirDatos({
     Navigator.of(buildContext, rootNavigator: true).pop();
     ResponseApi responseApi = ResponseApi.fromJson(json.decode(e));
     if (responseApi.success!) {
-      Navigator.pushNamed(buildContext, 'client/payment/paymentMethods');
+      Navigator.pushNamed(buildContext, 'client/products/list');
       BienesContenidoController borrar = BienesContenidoController();
       borrar.limpiar();
     } else {
@@ -170,7 +174,7 @@ void subirDatos({
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'client/payment/paymentMethods');
+                  Navigator.pushNamed(context, 'client/products/list');
                 },
                 child: Text("OK"),
               ),

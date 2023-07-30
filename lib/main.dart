@@ -5,10 +5,13 @@ import 'package:jabes/src/pages/client/payment/bienes_pago.dart';
 import 'package:jabes/src/pages/client/payment/individual_pago.dart';
 import 'package:jabes/src/pages/client/payment/payment_methods.dart';
 import 'package:jabes/src/pages/client/payment/widgets_payment/container_payment.dart';
+import 'package:jabes/src/pages/client/products/detail/client_produts_detail_page.dart';
 import 'package:jabes/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:jabes/src/pages/client/products/list/update/client_update_page.dart';
 import 'package:jabes/src/pages/login/login_page.dart';
+import 'package:jabes/src/pages/org/categories/create/org_categories_create_page.dart';
 import 'package:jabes/src/pages/org/orders/list/org_orders_list_page.dart';
+import 'package:jabes/src/pages/org/products/create/org_produts_create_page.dart';
 import 'package:jabes/src/pages/register/register_page.dart';
 import 'package:jabes/src/pages/roles/roles_page.dart';
 import 'package:jabes/src/utils/my_colors.dart';
@@ -42,15 +45,19 @@ class _MyWidgetState extends State<MyApp> {
             const ClientProductsListPage(),
         'client/update': (BuildContext context) => const ClientUpdatePage(),
         'org/orders/list': (BuildContext context) => const OrgOrdersListpage(),
+        'org/categories/create': (BuildContext context) =>
+            const orgCategoriesCreatepage(),
+        'org/produts/create': (BuildContext context) =>
+            const orgproductsCreatepage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),
-        'client/payment/paymentMethods': (BuildContext context) =>
-            const MetodosPago(),
+        // 'client/payment/paymentMethods': (BuildContext context) =>
+        //     const MetodosPago(),
       },
       theme: ThemeData(
-        fontFamily: 'Nimbusans',
-        primaryColor: MyColors.primaryColor,
-      ),
+          fontFamily: 'Nimbusans',
+          primaryColor: MyColors.primaryColor,
+          appBarTheme: const AppBarTheme(elevation: 0)),
     );
   }
 }

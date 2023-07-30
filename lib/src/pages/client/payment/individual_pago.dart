@@ -1,3 +1,4 @@
+import 'package:jabes/src/models/product.dart';
 import 'package:jabes/src/pages/client/payment/payment_controller.dart';
 import './payment_methods.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +17,14 @@ class PagoIndividual extends StatelessWidget {
   final String nombre;
   final String logo;
   final String id;
+  final Product categoria;
   PagoIndividual(
       {Key? key,
       this.imagen = "asset/img/no-image.png",
       this.nombre = 'Ah ocurrido un error',
       this.logo = 'asset/img/no-image.png',
-      required this.id})
+      required this.id,
+      required this.categoria})
       : super(key: key) {
     idPayment = id;
   }
@@ -35,6 +38,7 @@ class PagoIndividual extends StatelessWidget {
           logo: logo,
           nombre: nombre,
           paymentController: _paymentController,
+          categoria: categoria,
         ),
       ),
     );
@@ -46,6 +50,7 @@ class HijoContainer extends StatefulWidget {
   final String nombre;
   final String logo;
   final PaymentController paymentController;
+  final Product categoria;
 
   const HijoContainer({
     Key? key,
@@ -53,6 +58,7 @@ class HijoContainer extends StatefulWidget {
     required this.nombre,
     required this.logo,
     required this.paymentController,
+    required this.categoria,
   }) : super(key: key);
 
   @override
@@ -89,7 +95,11 @@ class _HijoContainerState extends State<HijoContainer> {
               GestureDetector(
                 onTap: () {
                   // Aquí manejamos el botón de regresar
-                  Navigator.pushNamed(context, 'client/payment/paymentMethods');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MetodosPago(categoria: widget.categoria)));
                 },
                 child: const Text(
                   'Regresar',
@@ -120,7 +130,7 @@ class _HijoContainerState extends State<HijoContainer> {
                       numericInputValue = value;
                     });
                   }),
-              const ModuloOrganizacion(),
+              ModuloOrganizacion(categoria: widget.categoria.name!),
               const ContainerFoto(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -131,7 +141,12 @@ class _HijoContainerState extends State<HijoContainer> {
                     height: 60,
                     onPressed: () {
                       widget.paymentController.onCompleteButtonPressed(
-                          context, numericInputValue, imagenGlobal, idPayment);
+                        context,
+                        numericInputValue,
+                        imagenGlobal,
+                        idPayment,
+                        widget.categoria,
+                      );
                       imagenGlobal = null;
                     },
                   ),
@@ -309,7 +324,8 @@ class _NumericInputState extends State<NumericInput> {
 }
 
 class ModuloOrganizacion extends StatelessWidget {
-  const ModuloOrganizacion({super.key});
+  final String categoria;
+  const ModuloOrganizacion({super.key, required this.categoria});
 
   @override
   Widget build(BuildContext context) {
@@ -321,9 +337,9 @@ class ModuloOrganizacion extends StatelessWidget {
       widthFactor: 1.0,
       child: Column(
         children: [
-          const GreenContainer(
+          GreenContainer(
             //implementar cuando la persona ya haya seleccionado una organizacion
-            container: 'Christian Science Latam',
+            container: categoria,
             height: 40,
           ),
           GreenContainer(

@@ -35,7 +35,6 @@ class ClientUpdateController {
 
   Future<void> init(BuildContext context, Function refresh) async {
     this.context = context;
-    usersProvider.init(context);
     this.refresh = refresh;
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
@@ -63,10 +62,6 @@ class ClientUpdateController {
     if (!isNumeric(phone)) {
       MySnackbar.show(
           context, 'El número de teléfono debe contener solo numeros');
-      return;
-    }
-    if (imageFile == null) {
-      MySnackbar.show(context, 'Selecciona una imagen');
       return;
     }
 
@@ -99,8 +94,6 @@ class ClientUpdateController {
       } else {
         isEnable = true;
       }
-
-      print('Respuesta: ${responseApi?.toJson()}');
     });
   }
 
