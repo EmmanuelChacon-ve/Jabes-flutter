@@ -39,7 +39,8 @@ class ClientUpdateController {
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
     // ignore: use_build_context_synchronously
-    usersProvider.init(context, token: user?.sessionToken ?? '');
+    usersProvider.init(context, sessionUser: user);
+    print(user!.sessionToken);
     nameController.text = user!.name!;
     apellidoController.text = user!.lastname!;
     phoneController.text = user!.phone!;
