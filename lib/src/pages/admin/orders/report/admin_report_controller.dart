@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/user.dart';
 import '../../../../utils/shared_pref.dart';
 
-class AdminOrdersListController {
+class AdminReportController {
   late BuildContext context;
   SharedPref _sharedPref = SharedPref();
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -19,19 +19,23 @@ class AdminOrdersListController {
     refresh();
   }
 
-  void logout() {
-    _sharedPref.logout(context, user!.id!);
+  void goToUserPDF() {
+    Navigator.pushNamed(context, 'admin/orders/report/userPDF');
   }
 
-  void goToRoles() {
-    Navigator.pushNamed(context, 'roles');
+  void goToRolesPDF() {
+    Navigator.pushNamed(context, 'admin/orders/report/RolesPDF');
   }
 
-  void goToPDF() {
-    Navigator.pushNamed(context, 'admin/orders/report');
+  void goToCausasPDF() {
+    Navigator.pushNamed(context, 'admin/orders/report/CausasPDF');
   }
 
-  void openDrawer() {
-    key.currentState?.openDrawer();
+  void goToCategoriasPDF() {
+    Navigator.pushNamed(context, 'admin/orders/report/CategoryPDF');
+  }
+
+  void goToHasPDF() {
+    Navigator.pushNamed(context, 'admin/orders/report/hasPDF');
   }
 }

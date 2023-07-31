@@ -108,13 +108,15 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
             title: Text('Donar/Voluntariado'),
             trailing: Icon(Icons.volunteer_activism),
           ),
-          const ListTile(
-            title: Text('Registro de donaciones'),
-            trailing: Icon(Icons.picture_as_pdf),
+          ListTile(
+            onTap: _con.goToPDF,
+            title: const Text('Reportes en PDF'),
+            trailing: const Icon(Icons.picture_as_pdf),
           ),
-          const ListTile(
-            title: Text('Seleccionar rol'),
-            trailing: Icon(Icons.person_outlined),
+          ListTile(
+            onTap: _con.goToRoles,
+            title: const Text('Seleccionar rol'),
+            trailing: const Icon(Icons.person_outlined),
           ),
           ListTile(
             onTap: _con.logout,

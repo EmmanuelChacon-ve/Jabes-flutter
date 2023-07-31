@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/api/environment.dart';
+import 'package:jabes/src/models/causes.dart';
 import 'package:jabes/src/models/response_api.dart';
+import 'package:jabes/src/models/rol.dart';
 import 'package:jabes/src/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:jabes/src/utils/shared_pref.dart';
 import 'package:path/path.dart';
+
+import '../models/category.dart';
+import '../models/userhasroles.dart';
 
 class UsersProvider {
   String _url = Environment.API_JABES;
@@ -147,6 +151,70 @@ class UsersProvider {
         userList.add(User.fromJson(item));
       }
       return userList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
+  Future<List<Rol>> getAllrol() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAllrol');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<Rol> rolList = [];
+      for (var item in data) {
+        rolList.add(Rol.fromJson(item));
+      }
+      return rolList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
+  Future<List<UserHasRoles>> getAlluser_has_roles() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAlluser_has_roles');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<UserHasRoles> hasList = [];
+      for (var item in data) {
+        hasList.add(UserHasRoles.fromJson(item));
+      }
+      return hasList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
+  Future<List<Causes>> getAllCauses() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/findAllp');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<Causes> causesList = [];
+      for (var item in data) {
+        causesList.add(Causes.fromJson(item));
+      }
+      return causesList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
+  Future<List<Categorys>> getAllCategoria() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAllCategoria');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<Categorys> categorysList = [];
+      for (var item in data) {
+        categorysList.add(Categorys.fromJson(item));
+      }
+      return categorysList;
     } catch (e) {
       print('Error: $e');
       return [];

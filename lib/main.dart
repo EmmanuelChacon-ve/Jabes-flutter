@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jabes/src/pages/admin/orders/list/admin_orders_list_page.dart';
+import 'package:jabes/src/pages/admin/orders/report/admin_report_page.dart';
+import 'package:jabes/src/pages/admin/orders/report/categoriaspdf/categoria_pdf.dart';
+import 'package:jabes/src/pages/admin/orders/report/causaspdf/causas_pdf.dart';
+import 'package:jabes/src/pages/admin/orders/report/haspdf/has_pdf.dart';
+import 'package:jabes/src/pages/admin/orders/report/rolespdf/roles_pdf.dart';
+import 'package:jabes/src/pages/admin/orders/report/userpdf/user_pdf.dart';
 import 'package:jabes/src/pages/client/products/detail/client_produts_detail_page.dart';
 import 'package:jabes/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:jabes/src/pages/client/products/list/update/client_update_page.dart';
@@ -45,6 +51,17 @@ class _MyWidgetState extends State<MyApp> {
             const orgproductsCreatepage(),
         'admin/orders/list': (BuildContext context) =>
             const AdminOrdersListPage(),
+        'admin/orders/report': (BuildContext context) =>
+            const AdminReportPage(),
+        'admin/orders/report/userPDF': (BuildContext context) =>
+            const userPDF(),
+        'admin/orders/report/RolesPDF': (BuildContext context) =>
+            const RolesPDF(),
+        'admin/orders/report/hasPDF': (BuildContext context) => const hasPDF(),
+        'admin/orders/report/CausasPDF': (BuildContext context) =>
+            const CausasPDF(),
+        'admin/orders/report/CategoryPDF': (BuildContext context) =>
+            const CategoryPDF(),
       },
       theme: ThemeData(
           fontFamily: 'Nimbusans',
