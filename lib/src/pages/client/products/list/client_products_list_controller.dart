@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jabes/src/models/category.dart';
 import 'package:jabes/src/provider/category_provider.dart';
@@ -20,6 +22,9 @@ class ClientProductsListController {
 
   List<Categorys> categories = [];
 
+  Timer? searchOnStoppedTyping;
+  String productName = '';
+
   Future<void> init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
@@ -35,13 +40,13 @@ class ClientProductsListController {
   }
 
   Future<List<Product>> getProducts(
-      String idCategory /* , String productName */) async {
-/*     if (productName.isEmpty) { */
-    return await productsProvider.getByCategory(idCategory);
-    /*   } else {
-      return await _productsProvider.getByCategoryAndProductName(
+      String idCategory, String productName) async {
+    if (productName.isEmpty) {
+      return await productsProvider.getByCategory(idCategory);
+    } else {
+      return await productsProvider.getByCategoryAndProductName(
           idCategory, productName);
-    } */
+    }
   }
 
   void getCategories() async {
@@ -69,5 +74,22 @@ class ClientProductsListController {
 
   void gotoUpdatePage() {
     Navigator.pushNamed(context, 'client/update');
+  }
+
+  void onChangeText(String text) {
+    const duration = Duration(
+        milliseconds:
+            800); // set the duration that you want call search() after that.
+    if (searchOnStoppedTyping != null) {
+      searchOnStoppedTyping!.cancel();
+      refresh!();
+    }
+
+    searchOnStoppedTyping = Timer(duration, () {
+      productName = text;
+      refresh!();
+      // getProducts(idCategory, text)
+      print('TEXTO COMPLETO $text');
+    });
   }
 }

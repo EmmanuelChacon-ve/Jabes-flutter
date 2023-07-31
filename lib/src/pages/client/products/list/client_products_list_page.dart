@@ -60,7 +60,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           body: TabBarView(
               children: _con.categories.map((Categorys categorys) {
             return FutureBuilder(
-                future: _con.getProducts(categorys.id!),
+                future: _con.getProducts(categorys.id!, _con.productName),
                 builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.length > 0) {
@@ -170,7 +170,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        /*    onChanged: _con.onChangeText, */
+        onChanged: _con.onChangeText,
         decoration: InputDecoration(
             hintText: 'Buscar',
             suffixIcon: Icon(Icons.search, color: Colors.grey[400]),
