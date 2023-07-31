@@ -16,7 +16,7 @@ class _ContainerFotoState extends State<ContainerFoto> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170,
+      height: 150,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
@@ -28,7 +28,7 @@ class _ContainerFotoState extends State<ContainerFoto> {
           children: [
             const Text(
               'Adjuntar captura de pantalla',
-              style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             BotonImagen(
               controller: widget.controller,

@@ -30,15 +30,15 @@ class PaymentContainer extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.90,
             color: Colors.white,
             child: FractionallySizedBox(
-              widthFactor: 0.9,
-              heightFactor: 0.96,
+              widthFactor: 0.8,
+              heightFactor: 0.90,
               child: OverflowBox(
                 alignment: Alignment.topCenter,
                 maxHeight: MediaQuery.of(context).size.height - 110,
                 child: Padding(
                   padding: const EdgeInsets.all(
                       //si se encuentra overflow corregir este padding
-                      6.0),
+                      0.0),
                   child: hijo,
                 ),
               ),

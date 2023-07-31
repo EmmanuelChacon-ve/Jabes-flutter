@@ -79,8 +79,8 @@ class _HijoContainerState extends State<HijoContainer> {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      widthFactor: 0.9,
-      heightFactor: 0.96,
+      widthFactor: 0.8,
+      heightFactor: 0.90,
       child: OverflowBox(
         alignment: Alignment.topCenter,
         maxHeight: MediaQuery.of(context).size.height - 110,
@@ -111,7 +111,7 @@ class _HijoContainerState extends State<HijoContainer> {
                 ),
               ),
               SizedBox(
-                height: 150,
+                height: 85,
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -137,8 +137,8 @@ class _HijoContainerState extends State<HijoContainer> {
                 children: [
                   GreenContainer(
                     container: 'Completar',
-                    width: 300,
-                    height: 60,
+                    width: 200,
+                    height: 40,
                     onPressed: () {
                       widget.paymentController.onCompleteButtonPressed(
                         context,
@@ -171,13 +171,13 @@ class ModuloLogos extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         CircleAvatar(
-          radius: 35,
+          radius: 25,
           backgroundImage: AssetImage(logo),
         ),
         GreenContainer(
           container: tipoPago,
-          width: 270,
-          height: 40,
+          width: 144,
+          height: 50,
         ),
       ],
     );
@@ -192,7 +192,7 @@ class ModuloPagos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120,
+      height: 40,
       child: GestureDetector(
         onTap: () {
           Clipboard.setData(ClipboardData(text: cuenta));
@@ -206,21 +206,22 @@ class ModuloPagos extends StatelessWidget {
           children: [
             const Text(
               'Enviar a',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
             Text(
               'Nombre: $jabes',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
             Row(
               children: [
                 Text(
                   'Cuenta: $cuenta',
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 10, fontWeight: FontWeight.bold),
                 ),
                 const Icon(
                   Icons.copy_rounded,
+                  size: 10,
                   color: Color.fromARGB(255, 83, 202, 86),
                 ),
               ],
@@ -255,7 +256,8 @@ class _NumericInputState extends State<NumericInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      margin: EdgeInsets.only(top: 10),
+      height: 130, //130
       decoration: BoxDecoration(
           color: const Color.fromRGBO(0, 108, 53, 0.61),
           borderRadius: BorderRadius.circular(15)),
@@ -263,12 +265,12 @@ class _NumericInputState extends State<NumericInput> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(bottom: 20.0),
+            padding: EdgeInsets.only(bottom: 2.0),
             child: Center(
               child: Text(
                 'Monto a contribuir:',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -340,11 +342,11 @@ class ModuloOrganizacion extends StatelessWidget {
           GreenContainer(
             //implementar cuando la persona ya haya seleccionado una organizacion
             container: categoria,
-            height: 40,
+            height: 30,
           ),
           GreenContainer(
             container: formattedDate,
-            height: 40,
+            height: 30,
           ),
         ],
       ),
@@ -370,7 +372,7 @@ class GreenContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: Container(
         width:
             width, // Utiliza el width proporcionado o toma el ancho disponible si width es nulo
@@ -412,7 +414,7 @@ class _ContainerFotoState extends State<ContainerFoto> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170,
+      height: 150,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
@@ -424,7 +426,7 @@ class _ContainerFotoState extends State<ContainerFoto> {
           children: [
             const Text(
               'Adjuntar captura de pantalla',
-              style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             BotonImagen(
               onImageSelected: (XFile? image) {

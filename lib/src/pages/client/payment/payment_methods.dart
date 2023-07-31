@@ -56,7 +56,7 @@ class PrincipalContainer extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.85,
+          width: MediaQuery.of(context).size.width * 0.90,
           height: MediaQuery.of(context).size.height * 0.90,
           color: Colors.white,
           child: hijo,

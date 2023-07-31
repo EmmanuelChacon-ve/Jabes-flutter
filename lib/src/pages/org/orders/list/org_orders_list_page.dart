@@ -43,7 +43,37 @@ class _OrgOrdersListpageState extends State<OrgOrdersListpage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Organization orders List'),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: MyColors.primaryColor.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                '¡Bienvenido ${_con.user?.name ?? ''}!',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Disfruta de la experiencia Jabes',
+              style: TextStyle(
+                fontSize: 18,
+                color: MyColors.primaryColor,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Aquí podrás hacer tus categorias y causas y más.',
+              style: TextStyle(
+                fontSize: 16,
+                color: MyColors.primaryColor,
+              ),
+            ),
             const SizedBox(height: 20),
             _verArchivo(),
             _archivo(), // Aquí agregamos el botón _archivo al body

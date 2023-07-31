@@ -91,7 +91,7 @@ class BienesContenido extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 150,
+          height: 85,
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -106,15 +106,15 @@ class BienesContenido extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 15),
-              height: 30,
+              margin: const EdgeInsets.only(top: 8),
+              height: 20,
               width: double.infinity,
               child: const Text(
                 'Por favor, describe los activos',
                 style: TextStyle(
                   color: Colors.black,
                   decoration: TextDecoration.none,
-                  fontSize: 25,
+                  fontSize: 17,
                   letterSpacing: -1,
                   fontWeight: FontWeight.bold,
                 ),
@@ -122,9 +122,9 @@ class BienesContenido extends StatelessWidget {
             ),
             SizedBox(
               // Utilizamos SizedBox para proporcionar una altura específica
-              height: 250, // Ajusta la altura según tus necesidades
+              height: 120, // Ajusta la altura según tus necesidades
               child: Container(
-                margin: const EdgeInsets.only(top: 15, bottom: 10),
+                margin: const EdgeInsets.only(top: 10, bottom: 5),
                 color: const Color.fromRGBO(0, 108, 53, 0.61),
                 width: double.infinity,
                 child: FractionallySizedBox(
@@ -141,7 +141,7 @@ class BienesContenido extends StatelessWidget {
               width: 300,
               height: 60,
               onPressed: () {
-                controller.onPressedButton(context, id,categoria);
+                controller.onPressedButton(context, id, categoria);
                 //traer informacion
                 // PaymentController controlador = PaymentController();
               },

@@ -31,9 +31,60 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
         leading: _menuDrawer(),
         backgroundColor: MyColors.primaryColor,
       ),
-      drawer: _drawer(), //llamanndo al Widget _drawer() para poder ser mostrado
-      body: const Center(
-        child: Text('Admin orders List'),
+      drawer: _drawer(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: MyColors.primaryColor.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    '¡Bienvenido ${_con.user?.name ?? ''}!',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Disfruta de la experiencia Jabes',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: MyColors.primaryColor,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Aquí podrás ver tus órdenes y más.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: MyColors.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 32),
+          Center(
+            child: Text(
+              'Chequea tus PDFS',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: MyColors.primaryColor,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -100,14 +151,10 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                   )
                 ],
               )),
-          const ListTile(
+/*           const ListTile(
             title: Text('Editar Perfil'),
             trailing: Icon(Icons.edit_outlined),
-          ),
-          const ListTile(
-            title: Text('Donar/Voluntariado'),
-            trailing: Icon(Icons.volunteer_activism),
-          ),
+          ), */
           ListTile(
             onTap: _con.goToPDF,
             title: const Text('Reportes en PDF'),
