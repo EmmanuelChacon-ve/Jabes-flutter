@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabes/src/api/environment.dart';
 import 'package:jabes/src/models/causes.dart';
+import 'package:jabes/src/models/pago.dart';
 import 'package:jabes/src/models/response_api.dart';
 import 'package:jabes/src/models/rol.dart';
 import 'package:jabes/src/models/user.dart';
@@ -49,6 +50,22 @@ class UsersProvider {
     }
   }
 
+  Future<List<User>> getAllUsers() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getAll');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      List<User> userList = [];
+      for (var item in data) {
+        userList.add(User.fromJson(item));
+      }
+      return userList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
   Future<Stream?> createWithImage(User user, File? image) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
@@ -76,6 +93,7 @@ class UsersProvider {
       request.headers['Authorization'] = sessionUser?.sessionToken ?? '';
 
       if (image != null) {
+        image;
         request.files.add(http.MultipartFile('image',
             http.ByteStream(image.openRead().cast()), await image.length(),
             filename: basename(image.path)));
@@ -141,19 +159,18 @@ class UsersProvider {
     }
   }
 
-  Future<List<User>> getAllUsers() async {
+  //obteniendo metodos de pago
+  dynamic metodosDePago() async {
+    Uri url = Uri.http(_url, '$_api/payment');
+    Map<String, String> headers = {'Content-type': 'application/json'};
+    //agregar mas validaciones
     try {
-      Uri url = Uri.http(_url, '$_api/getAll');
-      final res = await http.get(url);
+      final res = await http.get(url, headers: headers);
       final data = json.decode(res.body);
-      List<User> userList = [];
-      for (var item in data) {
-        userList.add(User.fromJson(item));
-      }
-      return userList;
+      return data;
     } catch (e) {
       print('Error: $e');
-      return [];
+      return null;
     }
   }
 
@@ -218,6 +235,29 @@ class UsersProvider {
     } catch (e) {
       print('Error: $e');
       return [];
+    }
+    //realizando insersencion dentro de la tabla pay
+  }
+
+  Future<Stream?> insertPago(Pagos pago, File? image) async {
+    try {
+      //creando url
+      Uri url = Uri.http(_url, '$_api/insertPayment');
+      //creando un multipartURL
+      final request = http.MultipartRequest('POST', url);
+      //crenado instancia de la imagen
+      if (image != null) {
+        request.files.add(http.MultipartFile('image',
+            http.ByteStream(image.openRead().cast()), await image.length(),
+            filename: basename(image.path)));
+      }
+      //Creando archivos a enviar
+      request.fields['pago'] = json.encode(pago.toJson());
+      final response = await request.send(); // ENVIARA LA PETICION
+      return response.stream.transform(utf8.decoder);
+    } catch (e) {
+      print('El error ah sido $e');
+      return null;
     }
   }
 }

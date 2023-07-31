@@ -19,11 +19,12 @@ class ClientProductsDetailController {
     refresh();
   }
 
-  void addToDonation() {
+  Product? addToDonation() {
     if (product != null) {
       sharedPref.save('order', product!.toJson());
       Fluttertoast.showToast(msg: 'Producto agregado.');
       print('Producto agregado. ID: ${product!.id}');
     }
+    return product;
   }
 }

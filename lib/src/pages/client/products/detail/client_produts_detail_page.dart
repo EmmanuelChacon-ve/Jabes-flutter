@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:jabes/src/models/product.dart';
+import 'package:jabes/src/pages/client/payment/payment_methods.dart';
 import 'package:jabes/src/pages/client/products/detail/client_products_detail_controller.dart';
 
 import 'package:jabes/src/utils/my_colors.dart';
@@ -74,7 +75,20 @@ class _CLientProductsDetailPageState extends State<CLientProductsDetailPage> {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 30),
       child: ElevatedButton(
-        onPressed: _con.addToDonation,
+        onPressed: () {
+          Product? productoAgregado = _con.addToDonation();
+          if (productoAgregado != null) {
+            setState(() {
+              _con.product = productoAgregado;
+            });
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MetodosPago(
+                        categoria: productoAgregado!,
+                      )));
+        },
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             padding: EdgeInsets.symmetric(vertical: 5),
