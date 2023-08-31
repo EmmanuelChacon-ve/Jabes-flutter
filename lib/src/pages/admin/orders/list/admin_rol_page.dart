@@ -10,6 +10,7 @@ import '../../../../utils/shared_pref.dart';
 
 dynamic usuarioSelect;
 dynamic rolSelect;
+eenojombre
 
 class AdminRolPage extends StatefulWidget {
   const AdminRolPage({super.key});
