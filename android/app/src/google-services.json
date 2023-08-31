@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370733268507",
+    "project_id": "jabesapp-4284f",
+    "storage_bucket": "jabesapp-4284f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370733268507:android:229779a874c13857d302be",
+        "android_client_info": {
+          "package_name": "com.example.jabes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370733268507-vj6cbrcvg9he7544flbf2jqu2e8mvjhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq4vNhO0dfBGf7enUgki6p-70xgJLur4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370733268507-vj6cbrcvg9he7544flbf2jqu2e8mvjhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
